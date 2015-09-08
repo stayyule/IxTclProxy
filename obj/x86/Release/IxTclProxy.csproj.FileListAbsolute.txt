@@ -8,3 +8,13 @@ C:\C#\project\DotNet Project\IxNetAPI\IxTclProxy\obj\x86\Release\IxTclProxy.exe
 C:\C#\project\DotNet Project\IxNetAPI\IxTclProxy\obj\x86\Release\IxTclProxy.pdb
 C:\C#\project\DotNet Project\IxNetAPI\IxTclProxy\obj\x86\Release\IxTclProxy.csproj.GenerateResource.Cache
 C:\C#\project\DotNet Project\IxNetAPI\IxTclProxy\obj\x86\Release\IxTclProxy.csprojResolveAssemblyReference.cache
+C:\Ixia\Workspace\IxTclProxy\obj\x86\Release\IxTclProxy.exe
+C:\Ixia\Workspace\IxTclProxy\obj\x86\Release\IxTclProxy.pdb
+C:\Ixia\Workspace\IxTclProxy\bin\Release\IxTclProxy.exe
+C:\Ixia\Workspace\IxTclProxy\bin\Release\IxTclProxy.pdb
+C:\Ixia\Workspace\IxTclProxy\bin\Release\BitTcl.dll
+C:\Ixia\Workspace\IxTclProxy\bin\Release\BitTcl.pdb
+C:\Ixia\Workspace\IxTclProxy\obj\x86\Release\IxTclProxy.csprojResolveAssemblyReference.cache
+C:\Ixia\Workspace\IxTclProxy\obj\x86\Release\IxTclProxy.Main.resources
+C:\Ixia\Workspace\IxTclProxy\obj\x86\Release\IxTclProxy.Properties.Resources.resources
+C:\Ixia\Workspace\IxTclProxy\obj\x86\Release\IxTclProxy.csproj.GenerateResource.Cache
