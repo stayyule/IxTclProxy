@@ -53,4 +53,13 @@ class IxiaTcl {
         
         return $is_ready
     }
+    
+    method save { name stream } {
+		if { [catch {open ${name} w }  f ] } {
+			puts "Could not open initialisation file ${name}"
+		} else {
+			puts $f [string map {"###" "\n"} $stream]
+			close $f
+		}
+    }
 }

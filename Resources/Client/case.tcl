@@ -5,8 +5,8 @@ set flag false
 if { [ catch {
     # The proxy port range is from 4555 to 4574,  we'll automatically try to
     # use them one by one when we connect to the proxy server
-    #IxiaTcl ixia localhost
-    IxiaTcl ixia "172.16.174.137" 4556
+    IxiaTcl ixia localhost
+    #IxiaTcl ixia "172.16.174.137" 4556
     
     if { ![ixia available] } {
         error "Proxy server: [ixia cget -ip] is busy on \
@@ -31,30 +31,33 @@ if { [ catch {
     
     ixia exec $testController setResultDir ${testName}@[clock format [ clock seconds ] -format %Y%m%d%H%M%S]
     
+    ##
+    ## Load the repository
+    ##
+    #set repositoryName "Z:/Ixia/Workspace/IxTclProxy/Resources/Configs/$testName.rxf"
+    #set repository [ ixia exec ::IxLoad new ixRepository -name $repositoryName ]
     #
-    # Load the repository
+    ##
+    ## Loop through the tests, running them
+    ##
+    #set numTests [ ixia exec $repository testList.indexCount ]
+    #for {set testNo 0} {$testNo < $numTests} {incr testNo} {
+    #	set name [ixia exec $repository testList($testNo).cget -name]
+    #	set test [ixia exec $repository testList.getItem $name]
     #
-    set repositoryName "Z:/Ixia/Workspace/IxTclProxy/Resources/Configs/$testName.rxf"
-    set repository [ ixia exec ::IxLoad new ixRepository -name $repositoryName ]
-    
-    #
-    # Loop through the tests, running them
-    #
-    set numTests [ ixia exec $repository testList.indexCount ]
-    for {set testNo 0} {$testNo < $numTests} {incr testNo} {
-    	set name [ixia exec $repository testList($testNo).cget -name]
-    	set test [ixia exec $repository testList.getItem $name]
-
-    	# Start the test
-    	ixia exec $testController run $test
-    	ixia exec vwait ::ixTestControllerMonitor
-    }
+    #	# Start the test
+    #	ixia exec $testController run $test
+    #	ixia exec vwait ::ixTestControllerMonitor
+    #}
     
     ixia exec $testController stopRun
     ixia exec unset ::testName
     
     set log [ixia exec GetLogByTestName $testName]
-    puts [ixia format $log]
+    ixia save ${testName}.txt $log
+    
+    set results [ixia exec GetResultsByName $testName "HTTP_Client.csv"]
+    ixia save "HTTP_Client.csv" $results
 } err ] } {
 	puts "Run test case failed:$err"
     if { $flag } {

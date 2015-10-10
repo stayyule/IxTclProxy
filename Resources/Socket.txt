@@ -45,6 +45,33 @@ proc GetLogByTestName { name } {
 	return $retLogStr
 }
 
+proc GetResultsByName { testName resultsName } {
+	set mtime 0
+	set matchedDirectoryName ""
+	foreach f [glob nocomplain "*"] {
+		if { [file isdirectory $f] } {
+            if { [regexp "^${testName}@.*" $f ] } {
+                if { [file mtime $f] > $mtime } {
+                    set mtime [file mtime $f]
+                    set matchedDirectoryName $f
+                }
+            }
+        }
+	}
+	
+	set retResultsStr ""
+	if { $matchedDirectoryName != "" } {
+		if { [catch {open [file join $matchedDirectoryName $resultsName] r }  f ] } {
+			puts "Could not open initialisation file $matchedDirectoryName"
+		} else {
+			set retResultsStr [string map {"\n" "###"} [read $f ]]
+			close $f
+		}
+	}
+
+	return $retResultsStr
+}
+
 proc runTcl { chan addr port } {
 	set cin [gets $chan]
     puts "$addr:$port - $cin"
