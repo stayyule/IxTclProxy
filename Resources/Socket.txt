@@ -19,6 +19,32 @@ proc GetEnvTcl { product } {
 
 }
 
+proc GetLogByTestName { name } {
+	set mtime 0
+	set matchedFileName ""
+	foreach f [glob nocomplain "*.*"] {
+		#set f [file join $rootDir $f]
+		if { [regexp "^${name}_.*" $f ] } {
+			if { [file mtime $f] > $mtime } {
+				set mtime [file mtime $f]
+				set matchedFileName $f
+			}
+		}
+	}
+	
+	set retLogStr ""
+	if { $matchedFileName != "" } {
+		if { [catch {open $matchedFileName r }  f ] } {
+			puts "Could not open initialisation file $matchedFileName"
+		} else {
+			set retLogStr [string map {"\n" "###"} [read $f ]]
+			close $f
+		}
+	}
+
+	return $retLogStr
+}
+
 proc runTcl { chan addr port } {
 	set cin [gets $chan]
     puts "$addr:$port - $cin"
