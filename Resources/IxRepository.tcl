@@ -1021,7 +1021,6 @@ namespace eval IXIA {
         set activeTest    [ getActiveTest ]
         set testName    [ $activeTest cget -name ]
         
-        $IXIA::testController setResultDir "Result/${repName}/${testName}"
         $activeTest config \
             -enableNetworkDiagnostics                    false \
             -statsRequired                               true \
@@ -1064,9 +1063,9 @@ namespace eval IXIA {
     } 
 
     #-- connect to lib
-    proc connect {} { 
-        set IXIA::testController [::IxLoad new ixTestController -outputDir 1]
+    proc connect {} {
         ::IxLoad connect localhost
+        set IXIA::testController [::IxLoad new ixTestController -outputDir 1]
     }
     
     #-- disconnect to lib
@@ -1120,7 +1119,7 @@ proc GetEnvTcl { product } {
 }
 
 #--
-# GetLogByTestName
+# GetRunLog - Return test run log after test
 #--
 # Parameters :
 #       - name: Test name which is running
@@ -1129,7 +1128,7 @@ proc GetEnvTcl { product } {
 #      Log   : If Status is false, it's error information, otherwise is test logs
 #--
 #  
-proc GetLogByTestName { tcName } {
+proc GetRunLog { tcName } {
 	set mtime 0
 	set matchedFileName ""
 	foreach f [glob nocomplain "*.*"] {
@@ -1156,7 +1155,7 @@ proc GetLogByTestName { tcName } {
 }
 
 #--
-# GetResultsByName
+# GetRunResults - Return test results
 #--
 # Parameters :
 #       - name: Test name which is running
@@ -1205,6 +1204,6 @@ proc GetResultsByName { tcName resultsFileName } {
 #--
 #
 proc Config { tcName rxfName networkName1 networkName2 } {
-    
+    $IXIA::testController setResultDir "$tcName/$rxfName@"
 }
 # -- Changes end
