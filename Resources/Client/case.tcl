@@ -8,6 +8,7 @@ if { [ catch {
     IxiaTcl ixia localhost
     #IxiaTcl ixia "172.16.174.137" 4556
     
+    # Below code to check/find an available proxy server to start the test
     if { ![ixia available] } {
         error "Proxy server: [ixia cget -ip] is busy on \
         port: [ixia cget -port], please wait a while and try again."
@@ -31,31 +32,33 @@ if { [ catch {
     
     ixia exec $testController setResultDir ${testName}@[clock format [ clock seconds ] -format %Y%m%d%H%M%S]
     
-    ##
-    ## Load the repository
-    ##
-    #set repositoryName "Z:/Ixia/Workspace/IxTclProxy/Resources/Configs/$testName.rxf"
-    #set repository [ ixia exec ::IxLoad new ixRepository -name $repositoryName ]
     #
-    ##
-    ## Loop through the tests, running them
-    ##
-    #set numTests [ ixia exec $repository testList.indexCount ]
-    #for {set testNo 0} {$testNo < $numTests} {incr testNo} {
-    #	set name [ixia exec $repository testList($testNo).cget -name]
-    #	set test [ixia exec $repository testList.getItem $name]
+    # Load the repository
     #
-    #	# Start the test
-    #	ixia exec $testController run $test
-    #	ixia exec vwait ::ixTestControllerMonitor
-    #}
+    set repositoryName "Z:/Ixia/Workspace/IxTclProxy/Resources/Configs/$testName.rxf"
+    set repository [ixia exec ::IxLoad new ixRepository -name $repositoryName]
+
+    #
+    # Loop through the tests, running them
+    #
+    set numTests [ ixia exec $repository testList.indexCount ]
+    for {set testNo 0} {$testNo < $numTests} {incr testNo} {
+    	set name [ixia exec $repository testList($testNo).cget -name]
+    	set test [ixia exec $repository testList.getItem $name]
+
+    	# Start the test
+    	ixia exec $testController run $test
+    	ixia exec vwait ::ixTestControllerMonitor
+    }
     
     ixia exec $testController stopRun
     ixia exec unset ::testName
     
+    # Get and save log
     set log [ixia exec GetLogByTestName $testName]
     ixia save ${testName}.txt $log
     
+    # Get and save test results
     set results [ixia exec GetResultsByName $testName "HTTP_Client.csv"]
     ixia save "HTTP_Client.csv" $results
 } err ] } {
