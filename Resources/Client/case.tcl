@@ -55,11 +55,11 @@ if { [ catch {
     ixia exec unset ::testName
     
     # Get and save log
-    set log [ixia exec GetLogByTestName $testName]
+    set log [ixia exec GetRunLog $testName]
     ixia save ${testName}.txt $log
     
     # Get and save test results
-    set results [ixia exec GetResultsByName $testName "HTTP_Client.csv"]
+    set results [ixia exec GetRunResults $testName $rxfName "HTTP_Client.csv"]
     ixia save "HTTP_Client.csv" $results
 } err ] } {
 	puts "Run test case failed:$err"

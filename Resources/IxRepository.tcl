@@ -35,6 +35,7 @@ namespace eval IXIA {
     variable Debug              0
     variable repository         ""
     variable testController     ""
+    variable testName           ""
     
     #--
     # Load the repository
@@ -1055,9 +1056,14 @@ namespace eval IXIA {
     proc waitForTestStop {} {
         set tag "proc waitForTestStop [info script]"
         Deputs "----- TAG: $tag -----"
-        vwait ::ixTestControllerMonitor
+        #vwait ::ixTestControllerMonitor
+        set ::ixTestControllerMonitor "" 
+        while {$::ixTestControllerMonitor == "" && $::gotOneStat == 0} {
+            Deputs "*******ixTestControllerMonitor = $::ixTestControllerMonitor, $::gotOneStat"
+            after 1000 set wakeup 1 
+            vwait wakeup
+        }
         Deputs "ixTestControllerMonitor = $::ixTestControllerMonitor"
-        
         Deputs "  proc  waitForTestStop over  "
         return 1   
     } 
@@ -1118,6 +1124,11 @@ proc GetEnvTcl { product } {
     return             "[ registry get $installInfo  HOMEDIR ]/TclScripts/bin/ixiawish.tcl"   
 }
 
+proc GetStandardReturnHeader { { status true } { msg "" } } {
+    set ret "\{Status:$status\nLog:$msg\n\}"
+    return $ret
+}
+
 #--
 # GetRunLog - Return test run log after test
 #--
@@ -1144,28 +1155,28 @@ proc GetRunLog { tcName } {
 	set retLogStr ""
 	if { $matchedFileName != "" } {
 		if { [catch {open $matchedFileName r }  f ] } {
-			puts "Could not open initialisation file $matchedFileName"
+			return GetStandardReturnHeader false $f
 		} else {
 			set retLogStr [string map {"\n" "###"} [read $f ]]
 			close $f
+            return GetStandardReturnHeader true $retLogStr
 		}
 	}
-
-	return $retLogStr
 }
 
 #--
 # GetRunResults - Return test results
 #--
 # Parameters :
-#       - name: Test name which is running
-#       - resultsName: The name of results file which will be returned
+#       - tcName: Test name which is running
+#       - rxfName: The name of rxf configuration file
+#       - csvName: The name of csv results 
 #Return :
 #      Status: true/false
 #      Log   : If Status is false, it's error information, otherwise is results
 #--
 #  
-proc GetResultsByName { tcName resultsFileName } {
+proc GetRunResults { tcName resultsFileName } {
 	set mtime 0
 	set matchedDirectoryName ""
 	foreach f [glob nocomplain "*"] {
@@ -1182,28 +1193,166 @@ proc GetResultsByName { tcName resultsFileName } {
 	set retResultsStr ""
 	if { $matchedDirectoryName != "" } {
 		if { [catch {open [file join $matchedDirectoryName $resultsFileName] r }  f ] } {
-			puts "Could not open initialisation file $matchedDirectoryName"
+			return GetStandardReturnHeader false $f
 		} else {
 			set retResultsStr [string map {"\n" "###"} [read $f ]]
 			close $f
+            return GetStandardReturnHeader true $retResultsStr
 		}
 	}
-
-	return $retResultsStr
 }
 
 #--
-# GetResultsByName
+# Config - Configure network <-> port mapping
 #--
 # Parameters :
-#       - name: Test name which is running
-#       - resultsName: The name of results file which will be returned
+#       - tcName: Test name which is running
+#       - rxfName: The name of rxf configuration file
+#       - network_port1: It should be formated:  networkName:chassisIp/cardIndex/portIndex, eg: networkName1:192.168.0.10/1/1
+#       - network_port2: It should be formated:  networkName:chassisIp/cardIndex/portIndex, eg: networkName1:192.168.0.10/1/1
+#       - network_port3: It's an option. It should be formated:  networkName:chassisIp/cardIndex/portIndex, eg: networkName1:192.168.0.10/1/1
 #Return :
 #      Status: true/false
-#      Log   : If Status is false, it's error information, otherwise is results
+#      Log   : If Status is false, it's error information, otherwise is empty
 #--
 #
-proc Config { tcName rxfName networkName1 networkName2 } {
-    $IXIA::testController setResultDir "$tcName/$rxfName@"
+proc Config { tcName rxfName network_port1 network_port2 { network_port3 "" } } {
+    set tag "proc Config $tcName $rxfName $networkName1 $networkName2"
+    IXIA::Deputs "----- TAG: $tag -----"
+    if { [ catch {
+        $IXIA::testController setResultDir "$tcName/$rxfName@[clock format [ clock seconds ] -format %Y%m%d%H%M%S]"
+
+        set chassisList [list]
+        set networkList [list]
+        set portList    [list]
+        set splitStr [split network_port1 ":"]
+        if { [llength $splitStr] != 2 } {
+            error "Parameter $network_port1 should be with format networkName:chassisIp/cardIndex/portIndex"
+        } else {
+            lappend $networkList [lindex $splitStr 0]
+            lappend $chassisList [lindex [split [lindex $splitStr 1] "/"] 0]
+            lappend $portList    [lindex $splitStr 1]
+        }
+        set splitStr [split network_port2 ":"]
+        if { [llength $splitStr] != 2 } {
+            error "Parameter $network_port2 should be with format networkName:chassisIp/cardIndex/portIndex"
+        } else {
+            lappend $networkList [lindex $splitStr 0]
+            lappend $chassisList [lindex [split [lindex $splitStr 1] "/"] 0]
+            lappend $portList    [lindex $splitStr 1]
+        }
+        if { $network_port3 != "" } {
+            set splitStr [split network_port3 ":"]
+            if { [llength $splitStr] != 2 } {
+                error "Parameter $network_port3 should be with format networkName:chassisIp/cardIndex/portIndex"
+            } else {
+                lappend $networkList [lindex $splitStr 0]
+                lappend $chassisList [lindex [split [lindex $splitStr 1] "/"] 0]
+                lappend $portList    [lindex $splitStr 1]
+            }
+        }
+        
+        IXIA::configRepository -chassis $chassisList
+        
+        foreach network $networkList port $portList {
+            IXIA::configNetwork $network -port $port
+        }
+    } err ] } {
+        return GetStandardReturnHeader false $err
+    }
+    IXIA::Deputs "  proc  Config over  "
+    return GetStandardReturnHeader true
+}
+
+#--
+# StopTraffic - Stop traffic
+#--
+# Parameters :
+#Return :
+#      Status: true/false
+#      Log   : If Status is false, it's error information, otherwise is empty
+#--
+#
+proc StopTraffic {} {
+    set tag "proc StopTraffic...."
+    IXIA::Deputs "----- TAG: $tag -----"
+    if { [ catch {
+        IXIA::stop
+    } err ] } {
+        return GetStandardReturnHeader false $err
+    }
+    IXIA::Deputs "  proc StopTraffic over  "
+    return GetStandardReturnHeader true
+}
+
+#--
+# StartTraffic - Start traffic
+#--
+# Parameters :
+#Return :
+#      Status: true/false
+#      Log   : If Status is false, it's error information, otherwise is empty
+#--
+#
+proc StartTraffic {} {
+    set tag "proc StartTraffic...."
+    IXIA::Deputs "----- TAG: $tag -----"
+    if { [ catch {
+        IXIA::run
+        IXIA::waitForTestStop
+    } err ] } {
+        return GetStandardReturnHeader false $err
+    }
+    IXIA::Deputs "  proc StartTraffic over  "
+    return GetStandardReturnHeader true
+}
+
+#--
+# Init - Initialize test
+#--
+# Parameters :
+#Return :
+#      Status: true/false
+#      Log   : If Status is false, it's error information, otherwise is empty
+#--
+#
+proc Init { rxfFullPathName } {
+    set tag "proc Init $rxfFullPathName"
+    IXIA::Deputs "----- TAG: $tag -----"
+    if { [ catch {
+        set IXIA::testName $::testName
+        IXIA::connect
+        IXIA::loadRepository "$rxfFullPathName"
+    } err ] } {
+        return GetStandardReturnHeader false $err
+    }
+    IXIA::Deputs "  proc Init over  "
+    return GetStandardReturnHeader true
+}
+
+#--
+# CleanUp - Clean up configuration after test
+#--
+# Parameters :
+#Return :
+#      Status: true/false
+#      Log   : If Status is false, it's error information, otherwise is empty
+#--
+#
+proc CleanUp { } {
+    set tag "proc CleanUp...."
+    IXIA::Deputs "----- TAG: $tag -----"
+    if { [ catch {
+        if { [info exist ::testName] } {
+            if { $IXIA::testName == $::testName } {
+                unset ::testName
+            }
+        }
+        IXIA::disconnect
+    } err ] } {
+        return GetStandardReturnHeader false $err
+    }
+    IXIA::Deputs "  proc CleanUp over  "
+    return GetStandardReturnHeader true
 }
 # -- Changes end

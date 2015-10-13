@@ -82,6 +82,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\IxRepository.tcl" />
+    <None Include="Resources\pkgIndex.tcl" />
+    <None Include="Resources\README.md" />
     <None Include="Resources\Socket.txt" />
   </ItemGroup>
   <ItemGroup>
