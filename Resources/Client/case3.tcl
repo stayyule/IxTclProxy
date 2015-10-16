@@ -9,7 +9,9 @@ if { [ catch {
     set repositoryName "C:/Ixia/Workspace/IxTclProxy/Resources/Configs/$rxfName.rxf"
     Init $repositoryName
     Config $tcName $rxfName
+    ConfigStats {"HTTP Client" "TCP Connections Established" "kMax"}
     StartTraffic
+    waitTestToFinish 60
     StopTraffic
     CleanUp
     ## Get and save log

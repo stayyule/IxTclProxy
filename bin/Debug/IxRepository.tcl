@@ -48,12 +48,15 @@ namespace eval IXIA {
     }
     
     package require IxLoad
+    package require statCollectorUtils
     
+    variable NS                 statCollectorUtils
     variable Debug              1
     variable repository         ""
     variable testController     ""
     variable tcName             ""
     variable logFile            "ixRepository@[clock format [ clock seconds ] -format %Y%m%d%H%M%S].txt"
+    variable isTrafficStart     false
     
     #--
     # Load the repository
@@ -1025,6 +1028,7 @@ namespace eval IXIA {
     
         set activeTest [ getActiveTest ]    
         $IXIA::testController applyConfig $activeTest
+        Deputs "  proc apply over  "
     }
     
     #--
@@ -1034,11 +1038,11 @@ namespace eval IXIA {
         set tag "proc run [info script]"
         Deputs "----- TAG: $tag -----"
         
-        set chassisChain [ $IXIA::repository cget -chassisChain ]
-        $chassisChain refresh
-        set repName    [ $IXIA::repository cget -name ]
-        set activeTest    [ getActiveTest ]
-        set name    [ $activeTest cget -name ]
+        set chassisChain    [ $IXIA::repository cget -chassisChain ]
+        $chassisChain  refresh
+        set repName         [ $IXIA::repository cget -name ]
+        set activeTest      [ getActiveTest ]
+        set name            [ $activeTest cget -name ]
         
         $activeTest config \
             -enableNetworkDiagnostics                    false \
@@ -1050,9 +1054,12 @@ namespace eval IXIA {
             -enableReleaseConfigAfterRun                 true
         
         set activeTest [ getActiveTest ]
-        $activeTest clearGridStats
+        
+        set ::ixTestControllerMonitor ""
+        set IXIA::isTrafficStart false
         
         $IXIA::testController run $activeTest
+        Deputs "  proc run over  "
     }
     
     #--
@@ -1064,6 +1071,8 @@ namespace eval IXIA {
         set tag "proc stop [info script]"
         Deputs "----- TAG: $tag -----"
         $IXIA::testController stopRun
+        ${IXIA::NS}::StopCollector
+        Deputs "  proc stop over  "
     }
         
     #--
@@ -1075,13 +1084,12 @@ namespace eval IXIA {
         set tag "proc waitForTestStop [info script]"
         Deputs "----- TAG: $tag -----"
         #vwait ::ixTestControllerMonitor
-        set ::ixTestControllerMonitor "" 
-        while {[lsearch $::ixTestControllerMonitor TEST_STOPPED] == -1 && $timeout > 0 } {
+        set timeout $timeout
+        while { [lsearch $::ixTestControllerMonitor TEST_STOPPED] == -1 && $timeout > 0 } {
             incr timeout -1
             after 1000 set wakeup 1
             vwait wakeup
         }
-        Deputs "ixTestControllerMonitor = $::ixTestControllerMonitor"
         Deputs "  proc  waitForTestStop over  "
         return 1   
     } 
@@ -1094,7 +1102,14 @@ namespace eval IXIA {
     proc waitTillGetStats {} {
         set tag "proc waitTillGetStats [info script]"
         Deputs "----- TAG: $tag -----"
-        set ::ixTestControllerMonitor "" 
+        
+        set timeout 120
+        while { [lsearch $::ixTestControllerMonitor TEST_STOPPED] == -1 && !$IXIA::isTrafficStart && $timeout > 0 } {
+            incr timeout -1
+            after 1000 set wakeup 1
+            vwait wakeup
+        }
+        
         Deputs "  proc  waitTillGetStats over  "
         return 1   
     }
@@ -1139,11 +1154,75 @@ namespace eval IXIA {
     proc IxDebugOff {} {
         set IXIA::Debug 0
     }
+    
+    # Start the collector (runs in the tcl event loop) 
+    #
+    
+    #--
+    # Select the stats for testing
+    #--
+    # Parameters: 
+    #        statList: Protocol stats List
+    #        interval: Stats subscribe interval 
+    # Return:
+    #        0 if got success
+    #        raise error if failed
+    #--
+    proc selectStats { statList { interval 2 } } {
+        set tag "proc selectStats $statList $interval"
+        Deputs "----- TAG: $tag -----"
+        
+        set activeTest [ getActiveTest ]
+        set test_server_handle [$IXIA::testController getTestServerHandle]
+        ${IXIA::NS}::Initialize -testServerHandle $test_server_handle
+        ${IXIA::NS}::ClearStats
+        $activeTest clearGridStats
+
+        set caption         "Watch_Stat"
+        set statSourceType  [lindex $statList 0]
+        set statName        [lindex $statList 1]
+        set aggregationType [lindex $statList 2]
+        Deputs "----- TAG: [llength $statList]-----"
+        Deputs "----- TAG: caption: $caption statSourceType: $statSourceType statName: $statName aggregationType: $aggregationType-----"
+        if { [ catch {
+            ${IXIA::NS}::AddStat \
+            -caption            $caption \
+            -statSourceType     $statSourceType \
+            -statName           $statName \
+            -aggregationType    $aggregationType \
+            -filterList         {}
+        } err ] } {
+            Deputs "Add stats $statSourceType $statName error:$err"
+        }
+ 
+        ${IXIA::NS}::StartCollector -command IXIA::collectStats -interval $interval
+        Deputs "  proc selectStats over  "
+    }
+
+    # Proc Name        : collect the protocol stats when running and put the data in global varibale stats_info_list and  call
+    #                    function statsCal to calculate the average value
+    #                    
+    # Parameters       : args , is the value of Stats when running 
+    # Parameter Example: statcollectorutils {timestamp 110000 stats {{kInt 166966415} {{kInt 166966415}}} {{{kInt 166966415}} {{kInt 1669664}}} ... ... }
+    # Return Value     : none
+    #
+    proc collectStats {args} {
+        # If results is returned, it means traffic is started
+        set IXIA::isTrafficStart true 
+        Deputs "=====================================" 
+        Deputs "INCOMING STAT RECORD >>> $args" 
+        Deputs "Len = [llength $args]" 
+        Deputs  [lindex $args 0] 
+        Deputs  [lindex $args 1] 
+        Deputs "=====================================" 
+    }
+
 }
 
 # -- Changes made on v1.4
 proc GetStandardReturnHeader { { status true } { msg "" } } {
     set ret "\{Status:$status###Log:$msg###\}"
+    IXIA::Deputs "----- RETURN: $ret -----"
     return $ret
 }
 
@@ -1177,11 +1256,13 @@ proc GetRunLog { tcName } {
 	if { $matchedFileName != "" } {
         IXIA::Deputs "Matched log file is: $matchedFileName"
 		if { [catch {open $matchedFileName r }  f ] } {
-			return GetStandardReturnHeader false $f
+            IXIA::Deputs "  proc GetRunLog over  "
+			return [GetStandardReturnHeader false $f]
 		} else {
 			set retLogStr [string map {"\n" "###"} [read $f ]]
 			close $f
-            return GetStandardReturnHeader true $retLogStr
+            IXIA::Deputs "  proc GetRunLog over  "
+            return [GetStandardReturnHeader true $retLogStr]
 		}
 	}
     
@@ -1221,11 +1302,11 @@ proc GetRunResults { tcName rxfName resultsFileName } {
 	if { $matchedDirectoryName != "" } {
         IXIA::Deputs "Matched results file is: [file join $matchedDirectoryName $resultsFileName]"
 		if { [catch {open [file join $matchedDirectoryName $resultsFileName] r }  f ] } {
-			return GetStandardReturnHeader false $f
+			return [GetStandardReturnHeader false $f]
 		} else {
 			set retResultsStr [string map {"\n" "###"} [read $f ]]
 			close $f
-            return GetStandardReturnHeader true $retResultsStr
+            return [GetStandardReturnHeader true $retResultsStr]
 		}
 	}
     
@@ -1294,10 +1375,10 @@ proc Config { tcName rxfName { network_port1 "" } { network_port2 "" } { network
             IXIA::configNetwork $network -port $port
         }
     } err ] } {
-        return GetStandardReturnHeader false $err
+        return [GetStandardReturnHeader false $err]
     }
     IXIA::Deputs "  proc Config over  "
-    return GetStandardReturnHeader true
+    return [GetStandardReturnHeader true]
 }
 
 #--
@@ -1315,10 +1396,32 @@ proc StopTraffic {} {
     if { [ catch {
         IXIA::stop
     } err ] } {
-        return GetStandardReturnHeader false $err
+        return [GetStandardReturnHeader false $err]
     }
     IXIA::Deputs "  proc StopTraffic over  "
-    return GetStandardReturnHeader true
+    return [GetStandardReturnHeader true]
+}
+
+#--
+# ConfigStats - Configure which stats should be printed in run-time
+#--
+# Parameters :
+#Return :
+#      Status: true/false
+#      Log   : If Status is false, it's error information, otherwise is empty
+#--
+#
+proc ConfigStats { statList { interval 1 } } {
+    set tag "proc ConfigStats $statList $interval"
+    IXIA::Deputs "----- TAG: $tag -----"
+    if { [ catch {
+        IXIA::selectStats $statList $interval
+    } err ] } {
+        IXIA::Deputs "  proc ConfigStats over  "
+        return [GetStandardReturnHeader false $err]
+    }
+    IXIA::Deputs "  proc ConfigStats over  "
+    return [GetStandardReturnHeader true]
 }
 
 #--
@@ -1335,13 +1438,12 @@ proc StartTraffic {} {
     IXIA::Deputs "----- TAG: $tag -----"
     if { [ catch {
         IXIA::run
-        IXIA::waitTillGetStats 
-        waitForTestStop
+        IXIA::waitTillGetStats
     } err ] } {
-        return GetStandardReturnHeader false $err
+        return [GetStandardReturnHeader false $err]
     }
     IXIA::Deputs "  proc StartTraffic over  "
-    return GetStandardReturnHeader true
+    return [GetStandardReturnHeader true]
 }
 
 #--
@@ -1354,16 +1456,16 @@ proc StartTraffic {} {
 #      Log   : 
 #--
 #
-proc waitTestToFinish { { timeout 120 } } {
+proc waitTestToFinish { { timeout 60 } } {
     set tag "proc waitTestToFinish $timeout "
     IXIA::Deputs "----- TAG: $tag -----"
     if { [ catch {
         IXIA::waitForTestStop $timeout
     } err ] } {
-        return GetStandardReturnHeader false $err
+        return [GetStandardReturnHeader false $err]
     }
     IXIA::Deputs "  proc waitTestToFinish over  "
-    return GetStandardReturnHeader true
+    return [GetStandardReturnHeader true]
 }
 
 #--
@@ -1383,10 +1485,10 @@ proc Init { rxfFullPathName } {
         IXIA::connect
         IXIA::loadRepository "$rxfFullPathName"
     } err ] } {
-        return GetStandardReturnHeader false $err
+        return [GetStandardReturnHeader false $err]
     }
     IXIA::Deputs "  proc Init over  "
-    return GetStandardReturnHeader true
+    return [GetStandardReturnHeader true]
 }
 
 #--
@@ -1409,9 +1511,9 @@ proc CleanUp { } {
         #}
         IXIA::disconnect
     } err ] } {
-        return GetStandardReturnHeader false $err
+        return [GetStandardReturnHeader false $err]
     }
     IXIA::Deputs "  proc CleanUp over  "
-    return GetStandardReturnHeader true
+    return [GetStandardReturnHeader true]
 }
 # -- Changes end

@@ -18,7 +18,7 @@ class IxiaTcl {
         flush $channel
         set result [ gets $channel ]
         close $channel
-        return $result
+        return [$this format $result]
 	}
 	
 	method format { str } {
@@ -58,7 +58,7 @@ class IxiaTcl {
 		if { [catch {open ${name} w }  f ] } {
 			puts "Could not open initialisation file ${name}"
 		} else {
-			puts $f [string map {"###" "\n"} $stream]
+			puts $f $stream
 			close $f
 		}
     }

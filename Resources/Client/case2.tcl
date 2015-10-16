@@ -24,12 +24,13 @@ if { [ catch {
     # Load the repository
     #
     set repositoryName "Z:/Ixia/Workspace/IxTclProxy/Resources/Configs/$rxfName.rxf"
-    ixia exec Init $repositoryName
-    ixia exec Config $tcName $rxfName
-    ixia exec StartTraffic
-    ixia exec waitTestToFinish 60
-    ixia exec StopTraffic
-    ixia exec CleanUp
+    set retVal [ixia exec Init $repositoryName]
+    set retVal [ixia exec Config $tcName $rxfName]
+    set retVal [ixia exec ConfigStats {"HTTP Client" "TCP Connections Established" "kMax"}]
+    set retVal [ixia exec StartTraffic]
+    set retVal [ixia exec waitTestToFinish 60]
+    set retVal [ixia exec StopTraffic]
+    set retVal [ixia exec CleanUp]
     ixia exec unset ::tcName
     # Get and save log
     set log [ixia exec GetRunLog $tcName]
