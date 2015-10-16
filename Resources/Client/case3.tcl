@@ -1,14 +1,14 @@
 source ../IxRepository.tcl
 
 set tcName "IxLoad-HTTP"
-set rxfName  "IxLoad-HTTP-137"
+set rxfName  "IxLoad-HTTP-128"
 if { [ catch {
     #
     # Load the repository
     #
     set repositoryName "C:/Ixia/Workspace/IxTclProxy/Resources/Configs/$rxfName.rxf"
     Init $repositoryName
-    Config $tcName $rxfName
+    Config $tcName $rxfName "Network1:172.16.174.137/1/1" "Network2:172.16.174.137/2/1"
     ConfigStats {"HTTP Client" "TCP Connections Established" "kMax"}
     StartTraffic
     waitTestToFinish 60

@@ -1336,36 +1336,74 @@ proc Config { tcName rxfName { network_port1 "" } { network_port2 "" } { network
         set chassisList [list]
         set networkList [list]
         set portList    [list]
-        if { $network_port3 != "" } {
-            set splitStr [split network_port1 ":"]
+        if { $network_port1 != "" } {
+            set splitStr [split $network_port1 ":"]
             if { [llength $splitStr] != 2 } {
                 error "Parameter $network_port1 should be with format networkName:chassisIp/cardIndex/portIndex"
             } else {
-                lappend $networkList [lindex $splitStr 0]
-                lappend $chassisList [lindex [split [lindex $splitStr 1] "/"] 0]
-                lappend $portList    [lindex $splitStr 1]
+                if { [llength [split [lindex $splitStr 1] "/"] ] != 3 } {
+                   error "Parameter $network_port1 should be with format networkName:chassisIp/cardIndex/portIndex" 
+                }
+                set network [lindex $splitStr 0]
+                if { [lsearch $networkList $network ] == -1 } {
+                    lappend networkList $network
+                }
+                set chassis [lindex [split [lindex $splitStr 1] "/"] 0]
+                if { [lsearch $chassisList $chassis] == -1 } {
+                    lappend chassisList $chassis
+                }
+                set port [lindex $splitStr 1]
+                if { [lsearch $portList $port] == -1 } {
+                    lappend portList $port
+                }
             }
         }
-        if { $network_port3 != "" } {
-            set splitStr [split network_port2 ":"]
+        if { $network_port2 != "" } {
+            set splitStr [split $network_port2 ":"]
             if { [llength $splitStr] != 2 } {
                 error "Parameter $network_port2 should be with format networkName:chassisIp/cardIndex/portIndex"
             } else {
-                lappend $networkList [lindex $splitStr 0]
-                lappend $chassisList [lindex [split [lindex $splitStr 1] "/"] 0]
-                lappend $portList    [lindex $splitStr 1]
+                if { [llength [split [lindex $splitStr 1] "/"] ] != 3 } {
+                   error "Parameter $network_port3 should be with format networkName:chassisIp/cardIndex/portIndex" 
+                }
+                set network [lindex $splitStr 0]
+                if { [lsearch $networkList $network ] == -1 } {
+                    lappend networkList $network
+                }
+                set chassis [lindex [split [lindex $splitStr 1] "/"] 0]
+                if { [lsearch $chassisList $chassis] == -1 } {
+                    lappend chassisList $chassis
+                }
+                set port [lindex $splitStr 1]
+                if { [lsearch $portList $port] == -1 } {
+                    lappend portList $port
+                }
             }
         }
         if { $network_port3 != "" } {
-            set splitStr [split network_port3 ":"]
+            set splitStr [split $network_port3 ":"]
             if { [llength $splitStr] != 2 } {
                 error "Parameter $network_port3 should be with format networkName:chassisIp/cardIndex/portIndex"
             } else {
-                lappend $networkList [lindex $splitStr 0]
-                lappend $chassisList [lindex [split [lindex $splitStr 1] "/"] 0]
-                lappend $portList    [lindex $splitStr 1]
+                if { [llength [split [lindex $splitStr 1] "/"] ] != 3 } {
+                   error "Parameter $network_port1 should be with format networkName:chassisIp/cardIndex/portIndex" 
+                }
+                set network [lindex $splitStr 0]
+                if { [lsearch $networkList $network ] == -1 } {
+                    lappend networkList $network
+                }
+                set chassis [lindex [split [lindex $splitStr 1] "/"] 0]
+                if { [lsearch $chassisList $chassis] == -1 } {
+                    lappend chassisList $chassis
+                }
+                set port [lindex $splitStr 1]
+                if { [lsearch $portList $port] == -1 } {
+                    lappend portList $port
+                }
             }
         }
+        
+        IXIA::Deputs "----- *************TAG: $chassisList, $networkList, $portList -----"
         
         if { [llength $chassisList] != 0 } {
             IXIA::configRepository -chassis $chassisList
@@ -1374,6 +1412,8 @@ proc Config { tcName rxfName { network_port1 "" } { network_port2 "" } { network
         foreach network $networkList port $portList {
             IXIA::configNetwork $network -port $port
         }
+        
+        IXIA::save "rxfName.rxf"
     } err ] } {
         return [GetStandardReturnHeader false $err]
     }

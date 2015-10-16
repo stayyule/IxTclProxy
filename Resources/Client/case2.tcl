@@ -1,7 +1,7 @@
 source IxProxy.tcl
 
 set tcName "IxLoad-HTTP"
-set rxfName  "IxLoad-HTTP-137"
+set rxfName  "IxLoad-HTTP-128"
 if { [ catch {
     # The proxy port range is from 4555 to 4574,  we'll automatically try to
     # use them one by one when we connect to the proxy server
@@ -25,7 +25,7 @@ if { [ catch {
     #
     set repositoryName "Z:/Ixia/Workspace/IxTclProxy/Resources/Configs/$rxfName.rxf"
     set retVal [ixia exec Init $repositoryName]
-    set retVal [ixia exec Config $tcName $rxfName]
+    set retVal [ixia exec Config $tcName $rxfName "Network1:172.16.174.137/1/1" "Network2:172.16.174.137/2/1"]
     set retVal [ixia exec ConfigStats {"HTTP Client" "TCP Connections Established" "kMax"}]
     set retVal [ixia exec StartTraffic]
     set retVal [ixia exec waitTestToFinish 60]
