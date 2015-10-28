@@ -5,7 +5,7 @@ set rxfName  "IxLoad-HTTP-128"
 if { [ catch {
     # The proxy port range is from 4555 to 4574,  we'll automatically try to
     # use them one by one when we connect to the proxy server
-    #IxiaTcl ixia localhost 4558
+    #IxiaTcl ixia localhost 4555
     IxiaTcl ixia "172.16.174.137" 4558
     
     # Below code to check/find an available proxy server to start the test

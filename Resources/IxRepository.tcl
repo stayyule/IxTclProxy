@@ -1242,9 +1242,8 @@ proc GetRunLog { tcName } {
     
 	set mtime 0
 	set matchedFileName ""
-	foreach f [glob nocomplain "*.*"] {
-		#set f [file join $rootDir $f]
-		if { [regexp "^${tcName}@.*" $f ] } {
+	foreach f [glob nocomplain "log/*.*"] {
+		if { [regexp "^log/${tcName}@.*" $f ] } {
 			if { [file mtime $f] > $mtime } {
 				set mtime [file mtime $f]
 				set matchedFileName $f
@@ -1446,6 +1445,9 @@ proc StopTraffic {} {
 # ConfigStats - Configure which stats should be printed in run-time
 #--
 # Parameters :
+#       - statList: The stats which you want to check the value is returned at first time,
+#                    the formation of this parameter is like: {"HTTP Client" "TCP Connections Established" "kMax"}
+#       - interval: The interval to check the results with unit seconds
 #Return :
 #      Status: true/false
 #      Log   : If Status is false, it's error information, otherwise is empty
