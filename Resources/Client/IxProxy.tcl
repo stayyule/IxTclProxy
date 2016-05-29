@@ -13,11 +13,16 @@ class IxiaTcl {
 	}
 	
 	method exec { args } {
+        set result ""
         set channel [ socket $ip $port ]
-        puts $channel $args
-        flush $channel
-        set result [ gets $channel ]
-        close $channel
+        if { [ catch {
+            puts $channel $args
+            flush $channel
+            set result [ gets $channel ]
+            close $channel
+        } err ] } {
+            close $channel
+        }
         return [$this format $result]
 	}
 	

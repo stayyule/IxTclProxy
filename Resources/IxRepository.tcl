@@ -29,12 +29,16 @@ namespace eval IXIA {
         } err ] } {
             return ""
         }        
-        
         set latestKey      [ lindex $versionKey end ]
-        set mutliVKeyIndex [ lsearch $versionKey "Multiversion" ]
-        if { $mutliVKeyIndex > 0 } {
-           set latestKey   [ lindex $versionKey [ expr $mutliVKeyIndex - 2 ] ]
+        if { $latestKey == "Multiversion" } {
+            set latestKey   [ lindex $versionKey [ expr [ llength $versionKey ] - 2 ] ]
+            if { $latestKey == "InstallInfo" } {
+                set latestKey   [ lindex $versionKey [ expr [ llength $versionKey ] - 3 ] ]
+            }
+        } elseif { $latestKey == "InstallInfo" } {
+            set latestKey   [ lindex $versionKey [ expr [ llength $versionKey ] - 2 ] ]
         }
+        
         set installInfo    [ append productKey \\ $latestKey \\ InstallInfo ]            
         return             "[ registry get $installInfo  HOMEDIR ]/TclScripts/bin/ixiawish.tcl"   
     }
@@ -1402,7 +1406,7 @@ proc Config { tcName rxfName { network_port1 "" } { network_port2 "" } { network
             }
         }
         
-        IXIA::Deputs "----- *************TAG: $chassisList, $networkList, $portList -----"
+        IXIA::Deputs "----- TAG: $chassisList, $networkList, $portList -----"
         
         if { [llength $chassisList] != 0 } {
             IXIA::configRepository -chassis $chassisList

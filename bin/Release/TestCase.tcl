@@ -2,23 +2,6 @@ gets stdin port
 
 package req registry
 
-proc GetEnvTcl { product } {
-   
-   set productKey     "HKEY_LOCAL_MACHINE\\SOFTWARE\\Ixia Communications\\$product"
-   set versionKey     [ registry keys $productKey ]
-
-   set latestKey ""
-   foreach version $versionKey {
-		if { [ regexp {^\d} $version ] } {
-			set latestKey $version
-		}
-   }
-
-   set installInfo    [ append productKey \\ $latestKey \\ InstallInfo ]            
-   return             [ registry get $installInfo  HOMEDIR ]
-
-}
-
 proc runTcl { chan addr port } {
 	set cin [gets $chan]
     puts "$addr:$port - $cin"
@@ -43,9 +26,9 @@ proc runTcl { chan addr port } {
 puts "socket on $port running:[ socket -server runTcl $port ]"
 
 if { [ catch {
-	source [ GetEnvTcl IxLoad ]tclscripts/bin/ixiawish.tcl
+	source IxRepository.tcl
 } err ] } {
-	puts "load IxLoad package fail:$err"
+	puts "Load IxRepository package fail:$err"
 }
 
 vwait forever

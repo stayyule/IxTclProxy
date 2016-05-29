@@ -1,12 +1,13 @@
 source IxProxy.tcl
 
-set testName "IxLoad-HTTP-137"
+set testName "IxLoad-HTTP"
+set rxfName "IxLoad-HTTP-133"
 set flag false
 if { [ catch {
     # The proxy port range is from 4555 to 4574,  we'll automatically try to
     # use them one by one when we connect to the proxy server
-    IxiaTcl ixia localhost
-    #IxiaTcl ixia "172.16.174.137" 4556
+    #IxiaTcl ixia localhost
+    IxiaTcl ixia "172.16.174.133" 4555
     
     # Below code to check/find an available proxy server to start the test
     if { ![ixia available] } {
@@ -35,7 +36,7 @@ if { [ catch {
     #
     # Load the repository
     #
-    set repositoryName "Z:/Ixia/Workspace/IxTclProxy/Resources/Configs/$testName.rxf"
+    set repositoryName "Z:/Ixia/Workspace/IxTclProxy/Resources/Configs/$rxfName.rxf"
     set repository [ixia exec ::IxLoad new ixRepository -name $repositoryName]
 
     #
