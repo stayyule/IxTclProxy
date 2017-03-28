@@ -29,12 +29,16 @@ namespace eval IXIA {
         } err ] } {
             return ""
         }        
-        
         set latestKey      [ lindex $versionKey end ]
-        set mutliVKeyIndex [ lsearch $versionKey "Multiversion" ]
-        if { $mutliVKeyIndex > 0 } {
-           set latestKey   [ lindex $versionKey [ expr $mutliVKeyIndex - 2 ] ]
+        if { $latestKey == "Multiversion" } {
+            set latestKey   [ lindex $versionKey [ expr [ llength $versionKey ] - 2 ] ]
+            if { $latestKey == "InstallInfo" } {
+                set latestKey   [ lindex $versionKey [ expr [ llength $versionKey ] - 3 ] ]
+            }
+        } elseif { $latestKey == "InstallInfo" } {
+            set latestKey   [ lindex $versionKey [ expr [ llength $versionKey ] - 2 ] ]
         }
+        
         set installInfo    [ append productKey \\ $latestKey \\ InstallInfo ]            
         return             "[ registry get $installInfo  HOMEDIR ]/TclScripts/bin/ixiawish.tcl"   
     }
@@ -1237,7 +1241,7 @@ proc GetStandardReturnHeader { { status true } { msg "" } } {
 #--
 #  
 proc GetRunLog { tcName } {
-    set tag "proc GetRunResults $tcName"
+    set tag "proc GetRunLog $tcName"
     IXIA::Deputs "----- TAG: $tag -----"
     
 	set mtime 0
@@ -1245,7 +1249,7 @@ proc GetRunLog { tcName } {
 	foreach f [glob nocomplain "log/*.*"] {
 		if { [regexp "^log/${tcName}@.*" $f ] } {
 			if { [file mtime $f] > $mtime } {
-				set mtime [file mtime $f]
+		set mtime [file mtime $f]
 				set matchedFileName $f
 			}
 		}
@@ -1318,7 +1322,7 @@ proc GetRunResults { tcName rxfName resultsFileName } {
 # Parameters :
 #       - tcName: Test name which is running
 #       - rxfName: The name of rxf configuration file
-#       - network_port1: It should be formated:  networkName:chassisIp/cardIndex/portIndex, eg: networkName1:192.168.0.10/1/1
+#       - network_ports: It should be formated:  networkName:chassisIp/cardIndex/portIndex, eg: networkName1:192.168.0.10/1/1
 #       - network_port2: It should be formated:  networkName:chassisIp/cardIndex/portIndex, eg: networkName1:192.168.0.10/1/1
 #       - network_port3: It's an option. It should be formated:  networkName:chassisIp/cardIndex/portIndex, eg: networkName1:192.168.0.10/1/1
 #Return :
@@ -1326,8 +1330,8 @@ proc GetRunResults { tcName rxfName resultsFileName } {
 #      Log   : If Status is false, it's error information, otherwise is empty
 #--
 #
-proc Config { tcName rxfName { network_port1 "" } { network_port2 "" } { network_port3 "" } } {
-    set tag "proc Config $tcName $rxfName $network_port1 $network_port2 $network_port3"
+proc Config { tcName rxfName { network_ports "" } { network_port2 "" } { network_port3 "" } } {
+    set tag "proc Config $tcName $rxfName $network_ports $network_port2 $network_port3"
     IXIA::Deputs "----- TAG: $tag -----"
     if { [ catch {
         $IXIA::testController setResultDir "$tcName/$rxfName@[clock format [ clock seconds ] -format %Y%m%d%H%M%S]"
@@ -1335,13 +1339,13 @@ proc Config { tcName rxfName { network_port1 "" } { network_port2 "" } { network
         set chassisList [list]
         set networkList [list]
         set portList    [list]
-        if { $network_port1 != "" } {
-            set splitStr [split $network_port1 ":"]
+        foreach network_port $network_ports {
+            set splitStr [split $network_port ":"]
             if { [llength $splitStr] != 2 } {
-                error "Parameter $network_port1 should be with format networkName:chassisIp/cardIndex/portIndex"
+                error "Parameter $network_port should be with format networkName:chassisIp/cardIndex/portIndex"
             } else {
                 if { [llength [split [lindex $splitStr 1] "/"] ] != 3 } {
-                   error "Parameter $network_port1 should be with format networkName:chassisIp/cardIndex/portIndex" 
+                   error "Parameter $network_port should be with format networkName:chassisIp/cardIndex/portIndex" 
                 }
                 set network [lindex $splitStr 0]
                 if { [lsearch $networkList $network ] == -1 } {
@@ -1363,7 +1367,7 @@ proc Config { tcName rxfName { network_port1 "" } { network_port2 "" } { network
                 error "Parameter $network_port2 should be with format networkName:chassisIp/cardIndex/portIndex"
             } else {
                 if { [llength [split [lindex $splitStr 1] "/"] ] != 3 } {
-                   error "Parameter $network_port3 should be with format networkName:chassisIp/cardIndex/portIndex" 
+                   error "Parameter $network_port2 should be with format networkName:chassisIp/cardIndex/portIndex" 
                 }
                 set network [lindex $splitStr 0]
                 if { [lsearch $networkList $network ] == -1 } {
@@ -1385,7 +1389,7 @@ proc Config { tcName rxfName { network_port1 "" } { network_port2 "" } { network
                 error "Parameter $network_port3 should be with format networkName:chassisIp/cardIndex/portIndex"
             } else {
                 if { [llength [split [lindex $splitStr 1] "/"] ] != 3 } {
-                   error "Parameter $network_port1 should be with format networkName:chassisIp/cardIndex/portIndex" 
+                   error "Parameter $network_port3 should be with format networkName:chassisIp/cardIndex/portIndex" 
                 }
                 set network [lindex $splitStr 0]
                 if { [lsearch $networkList $network ] == -1 } {
@@ -1402,7 +1406,7 @@ proc Config { tcName rxfName { network_port1 "" } { network_port2 "" } { network
             }
         }
         
-        IXIA::Deputs "----- *************TAG: $chassisList, $networkList, $portList -----"
+        IXIA::Deputs "----- TAG: $chassisList, $networkList, $portList -----"
         
         if { [llength $chassisList] != 0 } {
             IXIA::configRepository -chassis $chassisList
@@ -1498,7 +1502,7 @@ proc StartTraffic {} {
 #      Log   : 
 #--
 #
-proc waitTestToFinish { { timeout 60 } } {
+proc waitTestToFinish { { timeout 120 } } {
     set tag "proc waitTestToFinish $timeout "
     IXIA::Deputs "----- TAG: $tag -----"
     if { [ catch {
@@ -1558,4 +1562,455 @@ proc CleanUp { } {
     IXIA::Deputs "  proc CleanUp over  "
     return [GetStandardReturnHeader true]
 }
+
+#--
+# ConfigUDP - Configure UDP parameters in test
+#--
+# Parameters :
+#           -parallelcmdcnt: Parallel command count
+#           -enabletos: Enable tos
+#           -enableperstreamstats: Enable per stream stats
+#           -enableoutoforderstats: Enable out of order stats
+#           -enableintegritycheck: Enable checksum check
+#           -enabletimestamp: Enable timestamp
+#           -typeofservice: Type of service
+#           -seedrandom: Random seed
+#           -enableheadercachehack: Enable header cache hack
+#           -disablepromotion: Disable promotion
+#           -cyclethroughinterfaces: Cycle through interfaces
+#           -cyclethroughduration: Cycle through duration (sec)
+#           -cyclethroughpercentage: Cycle through percentage (%)
+#           -trafficgenerator: Traffic mode - 0, 1
+#---------------------------------------------------------------------------
+#           -usepredefinedqci: 
+#           -usepredefinedtft:
+#           -gbrd:
+#           -mbru:
+#           -tft:
+#           -defaultbearerfallback:
+#           -networkinitiatedbearer:
+#           -ignoretft:
+#           -gbru:
+#           -mbrd:
+#           -qci:
+#           -usedefaultbearer:
+#---------------------------------------------------------------------------
+#           -minimuminterval: Static Duration or Min random duration between
+#           -maximuminterval: Max random duration between
+#---------------------------------------------------------------------------
+#           -streamdur: Duration (sec)
+#           -enabledestinationportrand: Enable random responder ports
+#           -enablesourceportrand: Enable random source ports
+#           -rangeimixoption: Traffic mode - 0, 1
+#           -remotepeer: Responder peer
+#           -destination: Destination
+#           -maxpacketfreq: Packet maximum frequency
+#           -packetfreq: Packet minmum frequency
+#           -destinationport: Responder Port(s)
+#           -sourceport: Source port(s)
+#           -maxcontentsize: Maximum payload size
+#           -contentsize: Minimum payload size
+#Return :
+#      Status: true/false
+#      Log   : If Status is false, it's error information, otherwise is empty
+#--
+#
+proc ConfigUDP {objName args} {
+    set tag "proc ConfigUDP [info script]"
+    IXIA::Deputs "----- TAG: $tag -----"
+    
+    set actObj [ IXIA::getActivity $objName ]
+    if { ![info exists actObj] } {
+        IXIA::Deputs "No object $objName find in test!!!"
+        return 0
+    }
+    set flowCnt [ $actObj agent.pm.protocolFlows.indexCount ]    
+    for { set index 0 } { $index < $flowCnt } { incr index } {
+        if { [regexp {displayName} [$actObj agent.pm.protocolFlows($index).getOptions]] } {
+            set cmdName [ $actObj agent.pm.protocolFlows($index).cget -displayName ]
+        } else {
+            set cmdName [ $actObj agent.pm.protocolFlows($index).cget -cmdName ]
+        }
+        if { [ regexp {APN} $cmdName ] } {
+            set apn [ $actObj agent.pm.protocolFlows($index) ]
+        } elseif { [ regexp {THINK} $cmdName ] } {
+            set think [ $actObj agent.pm.protocolFlows($index) ]
+        } elseif { [ regexp {Generate UDP Stream} $cmdName ] } {
+            set gudp [ $actObj agent.pm.protocolFlows($index) ]
+        }
+    }
+    foreach { key value } $args {
+        IXIA::Deputs "config -$key--$value"
+        set key [string tolower $key]
+        switch -exact -- $key {
+            -parallelcmdcnt {
+                IXIA::Deputs "$actObj agent.pm.advOptions.config -parallelCmdCnt $value"
+                $actObj agent.pm.advOptions.config -parallelCmdCnt $value
+            }
+            -enabletos {
+                IXIA::Deputs "$actObj agent.pm.advOptions.config -enableTOS $value"
+                $actObj agent.pm.advOptions.config -enableTOS $value
+            }
+            -enableperstreamstats {
+                IXIA::Deputs "$actObj agent.pm.advOptions.config -enablePerStreamStats $value"
+                $actObj agent.pm.advOptions.config -enablePerStreamStats $value
+            }
+            -enableoutoforderstats {
+                IXIA::Deputs "$actObj agent.pm.advOptions.config -enableOutOfOrderStats $value"
+                $actObj agent.pm.advOptions.config -enableOutOfOrderStats $value
+            }
+            -enableintegritycheck {
+                IXIA::Deputs "$actObj agent.pm.advOptions.config -enableIntegrityCheck $value"
+                $actObj agent.pm.advOptions.config -enableIntegrityCheck $value
+            }
+            -enabletimestamp {
+                IXIA::Deputs "$actObj agent.pm.advOptions.config -enableTimestamp $value"
+                $actObj agent.pm.advOptions.config -enableTimestamp $value
+            }
+            -typeofservice {
+                IXIA::Deputs "$actObj agent.pm.advOptions.config -typeOfService $value"
+                $actObj agent.pm.advOptions.config -typeOfService $value
+            }
+            -cmdlistloops {
+                IXIA::Deputs "$actObj agent.pm.advOptions.config -cmdListLoops $value"
+                $actObj agent.pm.advOptions.config -cmdListLoops $value
+            }
+            -seedrandom {
+                IXIA::Deputs "$actObj agent.pm.advOptions.config -seedRandom $value"
+                $actObj agent.pm.advOptions.config -parallelCmdCnt $value
+            }
+            -enableheadercachehack {
+                IXIA::Deputs "$actObj agent.pm.advOptions.config -enableHeaderCacheHack $value"
+                $actObj agent.pm.advOptions.config -enableHeaderCacheHack $value
+            }
+            -disablepromotion {
+                IXIA::Deputs "$actObj agent.pm.advOptions.config -disablePromotion $value"
+                $actObj agent.pm.advOptions.config -disablePromotion $value
+            }
+            -cyclethroughinterfaces {
+                IXIA::Deputs "$actObj agent.pm.advOptions.config -cycleThroughInterfaces $value"
+                $actObj agent.pm.advOptions.config -cycleThroughInterfaces $value
+            }
+            -cyclethroughduration {
+                IXIA::Deputs "$actObj agent.pm.advOptions.config -cycleThroughDuration $value"
+                $actObj agent.pm.advOptions.config -cycleThroughDuration $value
+            }
+            -cyclethroughpercentage {
+                IXIA::Deputs "$actObj agent.pm.advOptions.config -cycleThroughPercentage $value"
+                $actObj agent.pm.advOptions.config -cycleThroughPercentage $value
+            }
+            -trafficgenerator {
+                IXIA::Deputs "$actObj agent.pm.advOptions.config -trafficGenerator $value"
+                $actObj agent.pm.advOptions.config -trafficGenerator $value
+            }
+           -usepredefinedqci {
+                if {[ info exists apn ]} {
+                    IXIA::Deputs "$apn config -usePredefinedQci $value"
+                    $apn config -usePredefinedQci $value
+                }
+            }
+           -usepredefinedtft {
+                if {[ info exists apn ]} {
+                    IXIA::Deputs "$apn config -usePredefinedTft $value"
+                    $apn config -usePredefinedTft $value
+                }
+            }
+           -gbrd {
+                if {[ info exists apn ]} {
+                    IXIA::Deputs "$apn config -gbrd $value"
+                    $apn config -gbrd $value
+                }
+            }
+           -mbru {
+                if {[ info exists apn ]} {
+                    IXIA::Deputs "$apn config -mbru $value"
+                    $apn config -mbru $value
+                }
+            }
+           -tft {
+                if {[ info exists apn ]} {
+                    IXIA::Deputs "$apn config -tft $value"
+                    $apn config -tft $value
+                }
+            }
+           -defaultbearerfallback {
+                if {[ info exists apn ]} {
+                    IXIA::Deputs "$apn config -defaultBearerFallback $value"
+                    $apn config -defaultBearerFallback $value
+                }
+            }
+           -networkinitiatedbearer {
+                if {[ info exists apn ]} {
+                    IXIA::Deputs "$apn config -networkInitiatedBearer $value"
+                    $apn config -networkInitiatedBearer $value
+                }
+            }
+           -ignoretft {
+                if {[ info exists apn ]} {
+                    IXIA::Deputs "$apn config -ignoreTFT $value"
+                    $apn config -ignoreTFT $value
+                }
+            }
+           -gbru {
+                if {[ info exists apn ]} {
+                    IXIA::Deputs "$apn config -gbru $value"
+                    $apn config -gbru $value
+                }
+            }
+           -mbrd {
+                if {[ info exists apn ]} {
+                    IXIA::Deputs "$apn config -mbrd $value"
+                    $apn config -mbrd $value
+                }
+            }
+           -qci {
+                if {[ info exists apn ]} {
+                    IXIA::Deputs "$apn config -qci $value"
+                    $apn config -qci $value
+                }
+            }
+           -usedefaultbearer {
+                if {[ info exists apn ]} {
+                    IXIA::Deputs "$apn config -useDefaultBearer $value"
+                    $apn config -useDefaultBearer $value
+                }
+            }
+           -minimuminterval {
+                if {[ info exists think ]} {
+                    IXIA::Deputs "$think config -minimumInterval $value"
+                    $think config -minimumInterval $value
+                }
+            }
+           -maximuminterval {
+                if {[ info exists think ]} {
+                    IXIA::Deputs "$think config -maximumInterval $value"
+                    $think config -maximumInterval $value
+                }
+            }
+           -streamdur {
+                if {[ info exists gudp ]} {
+                    IXIA::Deputs "$gudp config -streamDur $value"
+                    $gudp config -streamDur $value
+                }
+            }
+           -enabledestinationportrand {
+                if {[ info exists gudp ]} {
+                    IXIA::Deputs "$gudp config -enableDestinationPortRand $value"
+                    $gudp config -enableDestinationPortRand $value
+                }
+            }
+           -enablesourceportrand {
+                if {[ info exists gudp ]} {
+                    IXIA::Deputs "$gudp config -enableSourcePortRand $value"
+                    $gudp config -enableSourcePortRand $value
+                }
+            }
+           -rangeimixoption {
+                if {[ info exists gudp ]} {
+                    IXIA::Deputs "$gudp config -rangeImixOption $value"
+                    $gudp config -rangeImixOption $value
+                }
+            }
+           -remotepeer {
+                if {[ info exists gudp ]} {
+                    IXIA::Deputs "$gudp config -remotePeer $value"
+                    $gudp config -remotePeer $value
+                }
+            }
+           -destination {
+                if {[ info exists gudp ]} {
+                    IXIA::Deputs "$gudp config -destination $value"
+                    $gudp config -destination $value
+                }
+            }
+           -maxpacketfreq {
+                if {[ info exists gudp ]} {
+                    IXIA::Deputs "$gudp config -maxPacketFreq $value"
+                    $gudp config -maxPacketFreq $value
+                }
+            }
+           -packetfreq {
+                if {[ info exists gudp ]} {
+                    IXIA::Deputs "$gudp config -packetFreq $value"
+                    $gudp config -packetFreq $value
+                }
+            }
+           -destinationport {
+                if {[ info exists gudp ]} {
+                    IXIA::Deputs "$gudp config -destinationPort $value"
+                    $gudp config -destinationPort $value
+                }
+            }
+           -sourceport {
+                if {[ info exists gudp ]} {
+                    IXIA::Deputs "$gudp config -sourcePort $value"
+                    $gudp config -sourcePort $value
+                }
+            }
+           -longerthantimeline {
+                if {[ info exists gudp ]} {
+                    IXIA::Deputs "$gudp config -longerThanTimeline $value"
+                    $gudp config -longerThanTimeline $value
+                }
+            }
+           -maxcontentsize {
+                if {[ info exists gudp ]} {
+                    IXIA::Deputs "$gudp config -maxContentSize $value"
+                    $gudp config -maxContentSize $value
+                }
+            }
+           -contentsize {
+                if {[ info exists gudp ]} {
+                    IXIA::Deputs "$gudp config -contentSize $value"
+                    $gudp config -contentSize $value
+                }
+            }
+        }
+    }
+    
+    IXIA::Deputs "  proc ConfigUDP over  "
+    return [GetStandardReturnHeader true]
+}
+
+#--
+# ConfigS1 - Configure S1 parameters in test
+#--
+# Parameters :
+#Return :
+#      Status: true/false
+#      Log   : If Status is false, it's error information, otherwise is empty
+#--
+#
+proc ConfigS1 {objName args} {
+    set tag "proc ConfigS1 [info script]"
+    IXIA::Deputs "----- TAG: $tag -----"
+    
+    set actObj [ getActivity $objName ]
+
+    foreach { key value } $args {
+        IXIA::Deputs "config -$key--$value"
+        set key [string tolower $key]
+        switch -exact -- $key {
+            -commandtype {
+                
+            }
+            -duration {
+                set duration $value
+            }
+        }
+    }
+    
+    IXIA::Deputs "  proc ConfigS1 over  "
+    return [GetStandardReturnHeader true]
+}
+
+#--
+# ConfigSCTP - Configure SCTP parameters in test
+#--
+# Parameters :
+#	-usemultihomingtar: If you are configuring SCTP multi-homing for any of
+#                           the stacks that are present in the IxLoad test scenario,
+#                           then you should also enable this setting. Otherwise,
+#                           there is no need to enable it
+#	-heartbeatinterval: The value of the HB.interval protocol parameter
+#	-maxinitretrans   : The value of the Max.Init.Retransmits protocol parameter
+#	-betarto          : The value of the RTO.Beta protocol parameter
+#	-initialrto       : The value of the initial timeout 
+#	-maxpathpetrans   : The value of the Path.Max.Retrans protocol parameter
+#	-minrto           : The value of the minimum timeout 
+#	-alpharto         : The value of the RTO.Alpha protocol parameter
+#	-cookielife       : The value of the Valid.Cookie.Life protocol parameter
+#	-maxrto           : The value of the maximum timeout 
+#	-maxassocretrans  : The value of the Association.Max.Retrans protocol parameter
+#	-maxburst         : The value of the Max.Burst protocol parameter
+#	-heartbeatmaxburst: The value of the Max.Burst protocol parameter
+#Return :
+#      Status: true/false
+#      Log   : If Status is false, it's error information, otherwise is empty
+#--
+#
+proc ConfigSCTP {objName args} {
+    set tag "proc ConfigSCTP [info script]"
+    IXIA::Deputs "----- TAG: $tag -----"
+    
+    set network [ IXIA::getNetwork $objName ]
+    set cnt [$network globalPlugins.indexCount]
+    set i 0
+    while { $i < $cnt } {
+        set name [$network globalPlugins($i).name]
+        if { [regexp {SCTP} $name total] } {
+            set sctp [$network globalPlugins($i)]                  
+            break
+        }
+        set i [ expr $i + 1 ]
+    }
+    
+    if { ![info exists sctp] } {
+        IXIA::Deputs "No SCTP object find in test!!!"
+        return 0
+    }
+        
+    foreach { key value } $args {
+        IXIA::Deputs "config -$key--$value"
+        set key [string tolower $key]
+        switch -exact -- $key {
+            -alpharto {
+                IXIA::Deputs "$sctp config -alphaRTO $value"
+                $sctp config -alphaRTO $value
+            }
+            -betarto {
+                IXIA::Deputs "$sctp config -betaRTO $value"
+                $sctp config -betaRTO $value 
+            }
+            -cookielife {
+                IXIA::Deputs "$sctp config -cookieLife $value"
+                $sctp config -cookieLife $value
+            }
+            -heartbeatinterval {
+                IXIA::Deputs "$sctp config -heartbeatInterval $value"
+                $sctp config -heartbeatInterval $value
+            }
+            -heartbeatmaxburst {
+                IXIA::Deputs "$sctp config -heartbeatMaxBurst $value"
+                $sctp config -heartbeatMaxBurst $value
+            }
+            -initialrto {
+                IXIA::Deputs "$sctp config -initialRTO $value"
+                $sctp config -initialRTO $value
+            }
+            -maxassocretrans {
+                IXIA::Deputs "$sctp config -maxAssocRetrans $value"
+                $sctp config -maxAssocRetrans $value
+            }
+            -maxburst {
+                IXIA::Deputs "$sctp config -maxBurst $value"
+                $sctp config -maxBurst $value
+            }
+            -maxinitretrans {
+                IXIA::Deputs "$sctp config -maxInitRetrans $value"
+                $sctp config -maxInitRetrans $value
+            }
+            -maxpathpetrans {
+                IXIA::Deputs "$sctp config -maxPathRetrans $value"
+                $sctp config -maxPathRetrans $value
+            }
+            -minrto {
+                IXIA::Deputs "$sctp config -minRTO $value"
+                $sctp config -minRTO $value
+            }
+            -maxrto {
+                IXIA::Deputs "$sctp config -maxRTO $value"
+                $sctp config -maxRTO $value
+            }
+            -usemultihomingtar {
+                IXIA::Deputs "$sctp config -useMultiHomingTar $value"
+                $sctp config -useMultiHomingTar $value
+            }
+        }
+    }
+
+    IXIA::Deputs "  proc ConfigSCTP over  "
+    return [GetStandardReturnHeader true] 
+}
+
 # -- Changes end

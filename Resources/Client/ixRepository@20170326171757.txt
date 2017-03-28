@@ -1,0 +1,14 @@
+[<IXIA>TIME:17:18:06]----- TAG: proc loadRepository C:/Ixia/Workspace/IxTclProxy/Resources/Client/test.tcl -----
+[<IXIA>TIME:17:18:12]repository = ::tp::_Obj4 
+[<IXIA>TIME:17:18:54]----- TAG: proc GetActivity C:/Ixia/Workspace/IxTclProxy/Resources/Client/test.tcl -----
+[<IXIA>TIME:17:18:54]----- TAG: proc GetActiveTest C:/Ixia/Workspace/IxTclProxy/Resources/Client/test.tcl -----
+[<IXIA>TIME:17:18:54]active test name: Test1
+[<IXIA>TIME:19:41:20]----- TAG: proc GetActivity C:/Ixia/Workspace/IxTclProxy/Resources/Client/test.tcl -----
+[<IXIA>TIME:19:41:20]----- TAG: proc GetActiveTest C:/Ixia/Workspace/IxTclProxy/Resources/Client/test.tcl -----
+[<IXIA>TIME:19:41:20]active test name: Test1
+[<IXIA>TIME:21:11:15]----- TAG: proc GetActivity C:/Ixia/Workspace/IxTclProxy/Resources/Client/test.tcl -----
+[<IXIA>TIME:21:11:15]----- TAG: proc GetActiveTest C:/Ixia/Workspace/IxTclProxy/Resources/Client/test.tcl -----
+[<IXIA>TIME:21:11:15]active test name: Test1
+[<IXIA>TIME:22:33:32]----- TAG: proc ConfigS1 C:/Ixia/Workspace/IxTclProxy/Resources/Client/test.tcl -----
+[<IXIA>TIME:23:46:41]----- TAG: proc GetActiveTest C:/Ixia/Workspace/IxTclProxy/Resources/Client/test.tcl -----
+[<IXIA>TIME:23:46:41]active test name: Test1

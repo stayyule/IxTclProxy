@@ -1,0 +1,701 @@
+<?xml version="1.0" ?>
+<root>
+<activeTest>Test1</activeTest>
+<rpf>
+  <Ixia.Aptixia.StackManager.PortGroup type="Ixia.Aptixia.StackManager.PortGroup" objectid="c975f4a2-c001-44fc-b6c6-394b7a4861a9" version="6.70.420">
+    <name type="String">Network2</name>
+    <category type="String" />
+    <stack type="Ixia.Aptixia.StackManager.L1EthernetPlugin" objectid="8eabb666-3a14-4d6a-9c39-9e6751a7f219" version="6.70.420">
+      <autoNegotiate type="Bool">1</autoNegotiate>
+      <speed type="String">k100FD</speed>
+      <advertise10Half type="Bool">1</advertise10Half>
+      <advertise10Full type="Bool">1</advertise10Full>
+      <advertise100Half type="Bool">1</advertise100Half>
+      <advertise100Full type="Bool">1</advertise100Full>
+      <advertise1000Full type="Bool">1</advertise1000Full>
+      <cardDualPhy type="Ixia.Aptixia.StackManager.DualPhyPlugin" objectid="b7ae31e7-2717-4cdd-af3c-e89fb6c53046" version="6.70.420">
+        <medium type="String">auto</medium>
+        <ixLoadRestObjectId type="Int">4</ixLoadRestObjectId>
+      </cardDualPhy>
+      <cardElm type="Ixia.Aptixia.StackManager.EthernetELMPlugin" objectid="656050fb-4c00-49d1-a668-d7a70f6d09af" version="6.70.420">
+        <negotiateMasterSlave type="Bool">1</negotiateMasterSlave>
+        <negotiationType type="String">master</negotiationType>
+        <ixLoadRestObjectId type="Int">4</ixLoadRestObjectId>
+      </cardElm>
+      <enableFlowControl type="Bool">0</enableFlowControl>
+      <directedAddress type="String">01:80:C2:00:00:01</directedAddress>
+      <dataCenter type="Ixia.Aptixia.StackManager.DataCenterSettings" objectid="e842dda6-5c04-4850-a5b5-3144ea3903de" version="6.70.420">
+        <dcSupported type="Bool">1</dcSupported>
+        <dcEnabled type="Bool">0</dcEnabled>
+        <dcFlowControl type="Ixia.Aptixia.StackManager.DataCenterSettingsSkeleton+eFlowControlType">0</dcFlowControl>
+        <dcMode type="Ixia.Aptixia.StackManager.DataCenterSettingsSkeleton+eDataCenterMode">2</dcMode>
+        <dcPfcMapping type="IntList" />
+        <dcPfcPauseEnable type="Bool">0</dcPfcPauseEnable>
+        <dcPfcPauseDelay type="Int">1</dcPfcPauseDelay>
+        <ixLoadRestObjectId type="Int">4</ixLoadRestObjectId>
+      </dataCenter>
+      <childrenList type="ListNode">
+        <Ixia.Aptixia.StackManager.L2EthernetPlugin type="Ixia.Aptixia.StackManager.L2EthernetPlugin" objectid="19a7a842-6c63-4ff4-a07a-e03408b62948" version="6.70.420">
+          <macRangeList type="ListNode">
+            <Ixia.Aptixia.StackManager.MacRange type="Ixia.Aptixia.StackManager.MacRange" objectid="03ccb8cd-4456-4620-a9ae-8a5dbc695b93" version="6.70.420">
+              <enabled type="Bool">1</enabled>
+              <name type="String">MAC-R2</name>
+              <mac type="String">00:0A:0A:00:0A:00</mac>
+              <incrementBy type="String">00:00:00:00:00:01</incrementBy>
+              <mtu type="Int">1500</mtu>
+              <count type="Int">1</count>
+              <vlanRange type="Ixia.Aptixia.StackManager.VlanIdRange" objectid="b466e240-fa0d-4f81-baf7-f4337317f0c2" version="6.70.420">
+                <name type="String">VLAN-R2</name>
+                <enabled type="Bool">0</enabled>
+                <firstId type="Int">100</firstId>
+                <incrementStep type="Int">1</incrementStep>
+                <increment type="Int">1</increment>
+                <uniqueCount type="Int">4094</uniqueCount>
+                <priority type="Int">1</priority>
+                <tpid type="String">0x8100</tpid>
+                <innerEnable type="Bool">0</innerEnable>
+                <innerFirstId type="Int">1</innerFirstId>
+                <innerIncrementStep type="Int">1</innerIncrementStep>
+                <innerIncrement type="Int">1</innerIncrement>
+                <innerUniqueCount type="Int">4094</innerUniqueCount>
+                <innerPriority type="Int">1</innerPriority>
+                <idIncrMode type="Int">2</idIncrMode>
+                <innerTpid type="String">0x8100</innerTpid>
+                <ixLoadRestObjectId type="Int">2</ixLoadRestObjectId>
+              </vlanRange>
+              <ixLoadRestObjectId type="Int">2</ixLoadRestObjectId>
+            </Ixia.Aptixia.StackManager.MacRange>
+          </macRangeList>
+          <vlanRangeList type="ListNode">
+            <Ixia.Aptixia.StackManager.VlanIdRange type="Ixia.Aptixia.StackManager.VlanIdRange" objectid="b466e240-fa0d-4f81-baf7-f4337317f0c2" version="6.70.420" />
+          </vlanRangeList>
+          <childrenList type="ListNode">
+            <Ixia.Aptixia.StackManager.IpV4V6Plugin type="Ixia.Aptixia.StackManager.IpV4V6Plugin" objectid="662d0004-fdd5-42bc-a45a-1ad914eb856f" version="6.70.420">
+              <rangeList type="ListNode">
+                <Ixia.Aptixia.StackManager.IpV4V6Range type="Ixia.Aptixia.StackManager.IpV4V6Range" objectid="7811a7bc-91fd-4009-944e-9afea07585e0" version="6.70.420">
+                  <enabled type="Bool">1</enabled>
+                  <name type="String">IP-R2</name>
+                  <ipType type="String">IPv4</ipType>
+                  <ipAddress type="String">10.10.0.10</ipAddress>
+                  <prefix type="Int">16</prefix>
+                  <incrementBy type="String">0.0.0.1</incrementBy>
+                  <count type="Int">1</count>
+                  <autoCountEnabled type="Bool">0</autoCountEnabled>
+                  <gatewayAddress type="String">10.10.0.1</gatewayAddress>
+                  <gatewayIncrement type="String">0.0.0.0</gatewayIncrement>
+                  <gatewayIncrementMode type="String">perSubnet</gatewayIncrementMode>
+                  <enableGatewayArp type="Bool">0</enableGatewayArp>
+                  <generateStatistics type="Bool">0</generateStatistics>
+                  <mss type="Int">1460</mss>
+                  <randomizeAddress type="Bool">0</randomizeAddress>
+                  <randomizeSeed type="Int">696579423</randomizeSeed>
+                  <autoMacGeneration type="Bool">1</autoMacGeneration>
+                  <macRange type="Ixia.Aptixia.StackManager.MacRange" objectid="03ccb8cd-4456-4620-a9ae-8a5dbc695b93" version="6.70.420" />
+                  <vlanRange type="Ixia.Aptixia.StackManager.VlanIdRange" objectid="b466e240-fa0d-4f81-baf7-f4337317f0c2" version="6.70.420" />
+                  <atmRange type="Ixia.Aptixia.StackManager.AtmRange" objectid="00000000-0000-0000-0000-000000000000" />
+                  <pvcRange type="Ixia.Aptixia.StackManager.PvcRange" objectid="00000000-0000-0000-0000-000000000000" />
+                  <autoIpTypeEnabled type="Bool">0</autoIpTypeEnabled>
+                  <ixLoadRestObjectId type="Int">2</ixLoadRestObjectId>
+                </Ixia.Aptixia.StackManager.IpV4V6Range>
+              </rangeList>
+              <rangeGroups type="ListNode">
+                <Ixia.Aptixia.StackManager.RangeGroup type="Ixia.Aptixia.StackManager.RangeGroup" objectid="3e416e51-65d1-4780-b52e-af1fb6b8ad14" version="6.70.420">
+                  <name type="String">DistGroup1</name>
+                  <distribType type="Ixia.Aptixia.StackManager.RangeGroupSkeleton+eDistributionType">0</distribType>
+                  <rangeList type="ListNode">
+                    <Ixia.Aptixia.StackManager.IpV4V6Range type="Ixia.Aptixia.StackManager.IpV4V6Range" objectid="7811a7bc-91fd-4009-944e-9afea07585e0" version="6.70.420" />
+                  </rangeList>
+                </Ixia.Aptixia.StackManager.RangeGroup>
+              </rangeGroups>
+              <childrenList type="ListNode" />
+              <extensionList type="ListNode" />
+              <dscMode type="Bool">0</dscMode>
+              <PortGroupData type="Ixia.Aptixia.StackManager.PortGroupSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+              <SessionData type="Ixia.Aptixia.StackManager.IpSessionData" objectid="1e11ff9c-cb2e-4c12-9010-7ba9a54d3c25" version="6.70.420">
+                <duplicateCheckingScope type="Ixia.Aptixia.StackManager.IpSessionDataSkeleton+eIpValidationOptions">2</duplicateCheckingScope>
+                <enableGatewayArp type="Bool">0</enableGatewayArp>
+                <gatewayArpRequestRate type="Int">300</gatewayArpRequestRate>
+                <maxOutstandingGatewayArpRequests type="Int">300</maxOutstandingGatewayArpRequests>
+                <ignoreUnresolvedIPs type="Bool">0</ignoreUnresolvedIPs>
+                <sendAllRequests type="Bool">0</sendAllRequests>
+                <individualARPTimeOut type="Int">500</individualARPTimeOut>
+                <ixLoadRestObjectId type="Int">2</ixLoadRestObjectId>
+              </SessionData>
+              <name type="String">IP-2</name>
+              <ixLoadRestObjectId type="Int">2</ixLoadRestObjectId>
+            </Ixia.Aptixia.StackManager.IpV4V6Plugin>
+          </childrenList>
+          <extensionList type="ListNode" />
+          <dscMode type="Bool">0</dscMode>
+          <PortGroupData type="Ixia.Aptixia.StackManager.PortGroupSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+          <SessionData type="Ixia.Aptixia.StackManager.MacSessionData" objectid="663ba3b7-292f-44a9-8f42-8280c7a05ec9" version="6.70.420">
+            <duplicateCheckingScope type="Ixia.Aptixia.StackManager.MacSessionDataSkeleton+eMacValidationOptions">2</duplicateCheckingScope>
+            <encapsulatorData type="Ixia.Aptixia.StackManager.EncapsulatorData" objectid="263c9571-7bfe-4e5d-ade7-7879082fca9d" version="6.70.420">
+              <enableArpRateControl type="Bool">0</enableArpRateControl>
+              <globalArpTimeout type="Int">20000</globalArpTimeout>
+              <perIpAdditionalArpTimeout type="Int">20</perIpAdditionalArpTimeout>
+              <gatewayArpRequestRate type="Int">300</gatewayArpRequestRate>
+              <maxOutstandingGatewayArpRequests type="Int">300</maxOutstandingGatewayArpRequests>
+              <ignoreUnresolvedIPs type="Bool">0</ignoreUnresolvedIPs>
+              <sendAllRequests type="Bool">0</sendAllRequests>
+              <individualARPTimeOut type="Int">500</individualARPTimeOut>
+            </encapsulatorData>
+            <ixLoadRestObjectId type="Int">2</ixLoadRestObjectId>
+          </SessionData>
+          <name type="String">MAC/VLAN-2</name>
+          <ixLoadRestObjectId type="Int">2</ixLoadRestObjectId>
+        </Ixia.Aptixia.StackManager.L2EthernetPlugin>
+      </childrenList>
+      <extensionList type="ListNode" />
+      <dscMode type="Bool">0</dscMode>
+      <PortGroupData type="Ixia.Aptixia.StackManager.PortGroupSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+      <SessionData type="Ixia.Aptixia.StackManager.SessionSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+      <name type="String">Ethernet-2</name>
+      <ixLoadRestObjectId type="Int">2</ixLoadRestObjectId>
+    </stack>
+    <globalPluginList type="ListNode">
+      <Ixia.Aptixia.StackManager.IxLoadSettingsPlugin type="Ixia.Aptixia.StackManager.IxLoadSettingsPlugin" objectid="63953d5d-51f9-4f29-ac6f-e3bf98a91184" version="1.0.0">
+        <SessionData type="Ixia.Aptixia.StackManager.SessionSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+        <teardownInterfaceWithUser type="Bool">0</teardownInterfaceWithUser>
+        <interfaceBehavior type="Int">0</interfaceBehavior>
+        <PortGroupData type="Ixia.Aptixia.StackManager.PortGroupSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+        <name type="String">Settings-2</name>
+        <ixLoadRestObjectId type="Int">2</ixLoadRestObjectId>
+      </Ixia.Aptixia.StackManager.IxLoadSettingsPlugin>
+      <Ixia.Aptixia.StackManager.FilterPlugin type="Ixia.Aptixia.StackManager.FilterPlugin" objectid="1bd937ad-5a47-43d7-a342-fca3a2c5e781" version="6.70.420">
+        <auto type="Bool">1</auto>
+        <all type="Bool">0</all>
+        <pppoecontrol type="Bool">0</pppoecontrol>
+        <pppoenetwork type="Bool">0</pppoenetwork>
+        <isis type="Bool">0</isis>
+        <ip type="String" />
+        <tcp type="String" />
+        <udp type="String" />
+        <mac type="String" />
+        <icmp type="String" />
+        <PortGroupData type="Ixia.Aptixia.StackManager.PortGroupSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+        <SessionData type="Ixia.Aptixia.StackManager.SessionSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+        <name type="String">Filter-2</name>
+        <ixLoadRestObjectId type="Int">2</ixLoadRestObjectId>
+      </Ixia.Aptixia.StackManager.FilterPlugin>
+      <Ixia.Aptixia.StackManager.GratArpPlugin type="Ixia.Aptixia.StackManager.GratArpPlugin" objectid="68197ec2-41ee-4616-a93a-9b30f5dad951" version="6.70.420">
+        <enabled type="Bool">1</enabled>
+        <forwardGratArp type="Bool">0</forwardGratArp>
+        <rateControlEnabled type="Bool">0</rateControlEnabled>
+        <maxFramesPerSecond type="Int">0</maxFramesPerSecond>
+        <PortGroupData type="Ixia.Aptixia.StackManager.PortGroupSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+        <SessionData type="Ixia.Aptixia.StackManager.SessionSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+        <name type="String">GratARP-2</name>
+        <ixLoadRestObjectId type="Int">2</ixLoadRestObjectId>
+      </Ixia.Aptixia.StackManager.GratArpPlugin>
+      <Ixia.Aptixia.StackManager.TCPPlugin type="Ixia.Aptixia.StackManager.TCPPlugin" objectid="026cd191-44de-40e8-b54a-93a56ab6c1e4" version="6.70.420">
+        <bestPerfSettings type="Bool">0</bestPerfSettings>
+        <accept_ra_all type="Bool">0</accept_ra_all>
+        <tcp_abort_on_overflow type="Bool">0</tcp_abort_on_overflow>
+        <tcp_adv_win_scale type="Int">2</tcp_adv_win_scale>
+        <tcp_app_win type="Int">31</tcp_app_win>
+        <tcp_bic type="Int">0</tcp_bic>
+        <tcp_bic_fast_convergence type="Int">1</tcp_bic_fast_convergence>
+        <tcp_bic_low_window type="Int">14</tcp_bic_low_window>
+        <tcp_dsack type="Bool">1</tcp_dsack>
+        <tcp_ecn type="Bool">0</tcp_ecn>
+        <tcp_fack type="Bool">1</tcp_fack>
+        <tcp_fin_timeout type="Int">60</tcp_fin_timeout>
+        <tcp_frto type="Int">0</tcp_frto>
+        <tcp_keepalive_intvl type="Int">75</tcp_keepalive_intvl>
+        <tcp_keepalive_probes type="Int">9</tcp_keepalive_probes>
+        <tcp_keepalive_time type="Int">7200</tcp_keepalive_time>
+        <tcp_low_latency type="Int">0</tcp_low_latency>
+        <tcp_max_orphans type="Int">8192</tcp_max_orphans>
+        <tcp_max_syn_backlog type="Int">1024</tcp_max_syn_backlog>
+        <tcp_max_tw_buckets type="Int">180000</tcp_max_tw_buckets>
+        <tcp_mem_low type="Int">24576</tcp_mem_low>
+        <tcp_mem_pressure type="Int">32768</tcp_mem_pressure>
+        <tcp_mem_high type="Int">49152</tcp_mem_high>
+        <tcp_moderate_rcvbuf type="Int">0</tcp_moderate_rcvbuf>
+        <tcp_no_metrics_save type="Bool">0</tcp_no_metrics_save>
+        <tcp_orphan_retries type="Int">0</tcp_orphan_retries>
+        <tcp_reordering type="Int">3</tcp_reordering>
+        <tcp_retrans_collapse type="Bool">1</tcp_retrans_collapse>
+        <tcp_retries1 type="Int">3</tcp_retries1>
+        <tcp_retries2 type="Int">5</tcp_retries2>
+        <tcp_rfc1337 type="Bool">0</tcp_rfc1337>
+        <tcp_rmem_min type="Int">4096</tcp_rmem_min>
+        <tcp_rmem_default type="Int">4096</tcp_rmem_default>
+        <tcp_rmem_max type="Int">262144</tcp_rmem_max>
+        <tcp_sack type="Bool">1</tcp_sack>
+        <tcp_stdurg type="Bool">0</tcp_stdurg>
+        <tcp_synack_retries type="Int">5</tcp_synack_retries>
+        <tcp_syn_retries type="Int">5</tcp_syn_retries>
+        <tcp_timestamps type="Bool">1</tcp_timestamps>
+        <tcp_tw_recycle type="Bool">1</tcp_tw_recycle>
+        <tcp_tw_reuse type="Bool">0</tcp_tw_reuse>
+        <tcp_vegas_alpha type="Int">2</tcp_vegas_alpha>
+        <tcp_vegas_beta type="Int">6</tcp_vegas_beta>
+        <tcp_vegas_cong_avoid type="Int">0</tcp_vegas_cong_avoid>
+        <tcp_vegas_gamma type="Int">2</tcp_vegas_gamma>
+        <tcp_westwood type="Int">0</tcp_westwood>
+        <tcp_window_scaling type="Bool">0</tcp_window_scaling>
+        <ip_no_pmtu_disc type="Bool">1</ip_no_pmtu_disc>
+        <tcp_wmem_min type="Int">4096</tcp_wmem_min>
+        <tcp_wmem_default type="Int">4096</tcp_wmem_default>
+        <tcp_wmem_max type="Int">262144</tcp_wmem_max>
+        <tcp_ipfrag_time type="Int">30</tcp_ipfrag_time>
+        <tcp_port_min type="Int">1024</tcp_port_min>
+        <tcp_port_max type="Int">65535</tcp_port_max>
+        <tcp_rto_min type="Int">200</tcp_rto_min>
+        <tcp_rto_max type="Int">120000</tcp_rto_max>
+        <tcp_tw_rfc1323_strict type="Bool">0</tcp_tw_rfc1323_strict>
+        <udp_port_randomization type="Bool">0</udp_port_randomization>
+        <disable_min_max_buffer_size type="Bool">1</disable_min_max_buffer_size>
+        <multicast_napi type="Int">1</multicast_napi>
+        <llm_hdr_gap type="Int">8</llm_hdr_gap>
+        <llm_hdr_gap_ns type="Int">10</llm_hdr_gap_ns>
+        <inter_packet_granular_delay type="Double">0</inter_packet_granular_delay>
+        <delayed_acks type="Bool">1</delayed_acks>
+        <accept_ra_default type="Bool">0</accept_ra_default>
+        <rps_needed type="Bool">0</rps_needed>
+        <delayed_acks_segments type="Int">0</delayed_acks_segments>
+        <delayed_acks_timeout type="Int">0</delayed_acks_timeout>
+        <tcp_large_icwnd type="Int">0</tcp_large_icwnd>
+        <tcp_mgmt_rmem type="Int">87380</tcp_mgmt_rmem>
+        <tcp_mgmt_wmem type="Int">32768</tcp_mgmt_wmem>
+        <adjust_tcp_buffers type="Bool">1</adjust_tcp_buffers>
+        <PortGroupData type="Ixia.Aptixia.StackManager.PortGroupSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+        <SessionData type="Ixia.Aptixia.StackManager.SessionSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+        <name type="String">TCP-2</name>
+        <ixLoadRestObjectId type="Int">2</ixLoadRestObjectId>
+      </Ixia.Aptixia.StackManager.TCPPlugin>
+      <Ixia.Aptixia.StackManager.DnsPlugin type="Ixia.Aptixia.StackManager.DnsPlugin" objectid="72b81d4f-14ef-44af-9249-d8bdaaa4e712" version="6.70.420">
+        <domain type="String" />
+        <timeout type="Int">30</timeout>
+        <nameServerList type="ListNode" />
+        <searchList type="ListNode" />
+        <hostList type="ListNode" />
+        <PortGroupData type="Ixia.Aptixia.StackManager.PortGroupSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+        <SessionData type="Ixia.Aptixia.StackManager.SessionSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+        <name type="String">DNS-2</name>
+        <ixLoadRestObjectId type="Int">2</ixLoadRestObjectId>
+      </Ixia.Aptixia.StackManager.DnsPlugin>
+      <Ixia.Aptixia.StackManager.MeshingPlugin type="Ixia.Aptixia.StackManager.MeshingPlugin" objectid="24f50990-9cdc-4eeb-ab43-3cf1b6117a3e" version="6.70.420">
+        <trafficMaps type="ListNode" />
+        <activityRangeMapInfoList type="ListNode" />
+        <PortGroupData type="Ixia.Aptixia.StackManager.PortGroupSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+        <SessionData type="Ixia.Aptixia.StackManager.SessionSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+        <name type="String">Meshing-1</name>
+        <ixLoadRestObjectId type="Int">2</ixLoadRestObjectId>
+      </Ixia.Aptixia.StackManager.MeshingPlugin>
+    </globalPluginList>
+    <portList type="StringList">
+      <String>172.16.174.129;2;1</String>
+    </portList>
+    <typeSpecificData type="ListNode">
+      <Ixia.Aptixia.StackManager.IPSecPortGroupData type="Ixia.Aptixia.StackManager.IPSecPortGroupData" objectid="ea6078b6-1f89-4784-919f-b21496b420d6" version="6.70.0">
+        <role type="String">Initiator</role>
+        <associates type="ListNode" />
+        <overrideGlobalOptions type="Bool">0</overrideGlobalOptions>
+        <useMaxInitiationRate type="Bool">0</useMaxInitiationRate>
+        <maxInitiationRate type="Int">50</maxInitiationRate>
+        <useMaxPendingTunnels type="Bool">0</useMaxPendingTunnels>
+        <maxPendingTunnels type="Int">50</maxPendingTunnels>
+        <teardownRate type="Int">10</teardownRate>
+        <enableESPPerStreamStats type="Bool">0</enableESPPerStreamStats>
+        <enableESPReplayStats type="Bool">0</enableESPReplayStats>
+        <activities type="ListNode" />
+        <pcpuLogLevel type="String">0</pcpuLogLevel>
+        <ixLoadRestObjectId type="Int">2</ixLoadRestObjectId>
+      </Ixia.Aptixia.StackManager.IPSecPortGroupData>
+    </typeSpecificData>
+    <virtualMode type="Bool">0</virtualMode>
+    <allowedVirtualModeTypes type="StringList" />
+    <doOwnership type="Bool">0</doOwnership>
+    <branchToNicMap type="ListNode" />
+    <cpuAggregation type="Bool">0</cpuAggregation>
+    <activePort type="String" />
+    <networkLayersManager type="Ixia.Aptixia.StackManager.NetworkLayersManager" objectid="e351dddb-db63-4dcc-bf65-d4021ea4f1b3" version="6.70.420" />
+    <ixLoadRestObjectId type="Int">2</ixLoadRestObjectId>
+  </Ixia.Aptixia.StackManager.PortGroup>
+</rpf>
+<rpf>
+  <Ixia.Aptixia.StackManager.PortGroup type="Ixia.Aptixia.StackManager.PortGroup" objectid="aa11436e-b3cf-43c9-b8dc-d10e426a93ba" version="6.70.420">
+    <name type="String">Network1</name>
+    <category type="String" />
+    <stack type="Ixia.Aptixia.StackManager.L1EthernetPlugin" objectid="cebf3236-645a-49f2-89af-59a3bc04cc4f" version="6.70.420">
+      <autoNegotiate type="Bool">1</autoNegotiate>
+      <speed type="String">k100FD</speed>
+      <advertise10Half type="Bool">1</advertise10Half>
+      <advertise10Full type="Bool">1</advertise10Full>
+      <advertise100Half type="Bool">1</advertise100Half>
+      <advertise100Full type="Bool">1</advertise100Full>
+      <advertise1000Full type="Bool">1</advertise1000Full>
+      <cardDualPhy type="Ixia.Aptixia.StackManager.DualPhyPlugin" objectid="de05f3f2-803b-4e2f-a667-058915fb40fb" version="6.70.420">
+        <medium type="String">auto</medium>
+        <ixLoadRestObjectId type="Int">2</ixLoadRestObjectId>
+      </cardDualPhy>
+      <cardElm type="Ixia.Aptixia.StackManager.EthernetELMPlugin" objectid="cdf7b6f3-6856-43a5-9062-bc291582a5da" version="6.70.420">
+        <negotiateMasterSlave type="Bool">1</negotiateMasterSlave>
+        <negotiationType type="String">master</negotiationType>
+        <ixLoadRestObjectId type="Int">2</ixLoadRestObjectId>
+      </cardElm>
+      <enableFlowControl type="Bool">0</enableFlowControl>
+      <directedAddress type="String">01:80:C2:00:00:01</directedAddress>
+      <dataCenter type="Ixia.Aptixia.StackManager.DataCenterSettings" objectid="20e898c5-6c0f-4c9f-9d67-589636a047ca" version="6.70.420">
+        <dcSupported type="Bool">1</dcSupported>
+        <dcEnabled type="Bool">0</dcEnabled>
+        <dcFlowControl type="Ixia.Aptixia.StackManager.DataCenterSettingsSkeleton+eFlowControlType">0</dcFlowControl>
+        <dcMode type="Ixia.Aptixia.StackManager.DataCenterSettingsSkeleton+eDataCenterMode">2</dcMode>
+        <dcPfcMapping type="IntList" />
+        <dcPfcPauseEnable type="Bool">0</dcPfcPauseEnable>
+        <dcPfcPauseDelay type="Int">1</dcPfcPauseDelay>
+        <ixLoadRestObjectId type="Int">2</ixLoadRestObjectId>
+      </dataCenter>
+      <childrenList type="ListNode">
+        <Ixia.Aptixia.StackManager.L2EthernetPlugin type="Ixia.Aptixia.StackManager.L2EthernetPlugin" objectid="f5675cf5-a679-4efd-bc94-161a08be88fa" version="6.70.420">
+          <macRangeList type="ListNode">
+            <Ixia.Aptixia.StackManager.MacRange type="Ixia.Aptixia.StackManager.MacRange" objectid="06be610b-e26c-4433-b6c6-a8c4818911b5" version="6.70.420">
+              <enabled type="Bool">1</enabled>
+              <name type="String">MAC-R1</name>
+              <mac type="String">00:0A:0A:00:01:00</mac>
+              <incrementBy type="String">00:00:00:00:00:01</incrementBy>
+              <mtu type="Int">1500</mtu>
+              <count type="Int">1</count>
+              <vlanRange type="Ixia.Aptixia.StackManager.VlanIdRange" objectid="7df57390-1fc3-46fe-993f-ad87d5c1d635" version="6.70.420">
+                <name type="String">VLAN-R1</name>
+                <enabled type="Bool">0</enabled>
+                <firstId type="Int">100</firstId>
+                <incrementStep type="Int">1</incrementStep>
+                <increment type="Int">1</increment>
+                <uniqueCount type="Int">4094</uniqueCount>
+                <priority type="Int">1</priority>
+                <tpid type="String">0x8100</tpid>
+                <innerEnable type="Bool">0</innerEnable>
+                <innerFirstId type="Int">1</innerFirstId>
+                <innerIncrementStep type="Int">1</innerIncrementStep>
+                <innerIncrement type="Int">1</innerIncrement>
+                <innerUniqueCount type="Int">4094</innerUniqueCount>
+                <innerPriority type="Int">1</innerPriority>
+                <idIncrMode type="Int">2</idIncrMode>
+                <innerTpid type="String">0x8100</innerTpid>
+                <ixLoadRestObjectId type="Int">1</ixLoadRestObjectId>
+              </vlanRange>
+              <ixLoadRestObjectId type="Int">1</ixLoadRestObjectId>
+            </Ixia.Aptixia.StackManager.MacRange>
+          </macRangeList>
+          <vlanRangeList type="ListNode">
+            <Ixia.Aptixia.StackManager.VlanIdRange type="Ixia.Aptixia.StackManager.VlanIdRange" objectid="7df57390-1fc3-46fe-993f-ad87d5c1d635" version="6.70.420" />
+          </vlanRangeList>
+          <childrenList type="ListNode">
+            <Ixia.Aptixia.StackManager.IpV4V6Plugin type="Ixia.Aptixia.StackManager.IpV4V6Plugin" objectid="2b19679f-4f2c-4a90-a34b-93f3f2d4bb0d" version="6.70.420">
+              <rangeList type="ListNode">
+                <Ixia.Aptixia.StackManager.IpV4V6Range type="Ixia.Aptixia.StackManager.IpV4V6Range" objectid="b4fbfa94-6764-4d96-b1c2-7eebe639c0e6" version="6.70.420">
+                  <enabled type="Bool">1</enabled>
+                  <name type="String">IP-R1</name>
+                  <ipType type="String">IPv4</ipType>
+                  <ipAddress type="String">10.10.0.1</ipAddress>
+                  <prefix type="Int">16</prefix>
+                  <incrementBy type="String">0.0.0.1</incrementBy>
+                  <count type="Int">1</count>
+                  <autoCountEnabled type="Bool">0</autoCountEnabled>
+                  <gatewayAddress type="String">10.10.0.10</gatewayAddress>
+                  <gatewayIncrement type="String">0.0.0.0</gatewayIncrement>
+                  <gatewayIncrementMode type="String">perSubnet</gatewayIncrementMode>
+                  <enableGatewayArp type="Bool">0</enableGatewayArp>
+                  <generateStatistics type="Bool">0</generateStatistics>
+                  <mss type="Int">1460</mss>
+                  <randomizeAddress type="Bool">0</randomizeAddress>
+                  <randomizeSeed type="Int">1402751965</randomizeSeed>
+                  <autoMacGeneration type="Bool">1</autoMacGeneration>
+                  <macRange type="Ixia.Aptixia.StackManager.MacRange" objectid="06be610b-e26c-4433-b6c6-a8c4818911b5" version="6.70.420" />
+                  <vlanRange type="Ixia.Aptixia.StackManager.VlanIdRange" objectid="7df57390-1fc3-46fe-993f-ad87d5c1d635" version="6.70.420" />
+                  <atmRange type="Ixia.Aptixia.StackManager.AtmRange" objectid="00000000-0000-0000-0000-000000000000" />
+                  <pvcRange type="Ixia.Aptixia.StackManager.PvcRange" objectid="00000000-0000-0000-0000-000000000000" />
+                  <autoIpTypeEnabled type="Bool">0</autoIpTypeEnabled>
+                  <ixLoadRestObjectId type="Int">1</ixLoadRestObjectId>
+                </Ixia.Aptixia.StackManager.IpV4V6Range>
+              </rangeList>
+              <rangeGroups type="ListNode">
+                <Ixia.Aptixia.StackManager.RangeGroup type="Ixia.Aptixia.StackManager.RangeGroup" objectid="65a26510-b093-4924-801f-2f4b8493dfab" version="6.70.420">
+                  <name type="String">DistGroup1</name>
+                  <distribType type="Ixia.Aptixia.StackManager.RangeGroupSkeleton+eDistributionType">0</distribType>
+                  <rangeList type="ListNode">
+                    <Ixia.Aptixia.StackManager.IpV4V6Range type="Ixia.Aptixia.StackManager.IpV4V6Range" objectid="b4fbfa94-6764-4d96-b1c2-7eebe639c0e6" version="6.70.420" />
+                  </rangeList>
+                </Ixia.Aptixia.StackManager.RangeGroup>
+              </rangeGroups>
+              <childrenList type="ListNode" />
+              <extensionList type="ListNode" />
+              <dscMode type="Bool">0</dscMode>
+              <PortGroupData type="Ixia.Aptixia.StackManager.PortGroupSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+              <SessionData type="Ixia.Aptixia.StackManager.IpSessionData" objectid="1e11ff9c-cb2e-4c12-9010-7ba9a54d3c25" version="6.70.420">
+                <duplicateCheckingScope type="Ixia.Aptixia.StackManager.IpSessionDataSkeleton+eIpValidationOptions">2</duplicateCheckingScope>
+                <enableGatewayArp type="Bool">0</enableGatewayArp>
+                <gatewayArpRequestRate type="Int">300</gatewayArpRequestRate>
+                <maxOutstandingGatewayArpRequests type="Int">300</maxOutstandingGatewayArpRequests>
+                <ignoreUnresolvedIPs type="Bool">0</ignoreUnresolvedIPs>
+                <sendAllRequests type="Bool">0</sendAllRequests>
+                <individualARPTimeOut type="Int">500</individualARPTimeOut>
+                <ixLoadRestObjectId type="Int">2</ixLoadRestObjectId>
+              </SessionData>
+              <name type="String">IP-1</name>
+              <ixLoadRestObjectId type="Int">1</ixLoadRestObjectId>
+            </Ixia.Aptixia.StackManager.IpV4V6Plugin>
+          </childrenList>
+          <extensionList type="ListNode" />
+          <dscMode type="Bool">0</dscMode>
+          <PortGroupData type="Ixia.Aptixia.StackManager.PortGroupSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+          <SessionData type="Ixia.Aptixia.StackManager.MacSessionData" objectid="663ba3b7-292f-44a9-8f42-8280c7a05ec9" version="6.70.420">
+            <duplicateCheckingScope type="Ixia.Aptixia.StackManager.MacSessionDataSkeleton+eMacValidationOptions">2</duplicateCheckingScope>
+            <encapsulatorData type="Ixia.Aptixia.StackManager.EncapsulatorData" objectid="263c9571-7bfe-4e5d-ade7-7879082fca9d" version="6.70.420">
+              <enableArpRateControl type="Bool">0</enableArpRateControl>
+              <globalArpTimeout type="Int">20000</globalArpTimeout>
+              <perIpAdditionalArpTimeout type="Int">20</perIpAdditionalArpTimeout>
+              <gatewayArpRequestRate type="Int">300</gatewayArpRequestRate>
+              <maxOutstandingGatewayArpRequests type="Int">300</maxOutstandingGatewayArpRequests>
+              <ignoreUnresolvedIPs type="Bool">0</ignoreUnresolvedIPs>
+              <sendAllRequests type="Bool">0</sendAllRequests>
+              <individualARPTimeOut type="Int">500</individualARPTimeOut>
+            </encapsulatorData>
+            <ixLoadRestObjectId type="Int">2</ixLoadRestObjectId>
+          </SessionData>
+          <name type="String">MAC/VLAN-1</name>
+          <ixLoadRestObjectId type="Int">1</ixLoadRestObjectId>
+        </Ixia.Aptixia.StackManager.L2EthernetPlugin>
+      </childrenList>
+      <extensionList type="ListNode" />
+      <dscMode type="Bool">0</dscMode>
+      <PortGroupData type="Ixia.Aptixia.StackManager.PortGroupSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+      <SessionData type="Ixia.Aptixia.StackManager.SessionSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+      <name type="String">Ethernet-1</name>
+      <ixLoadRestObjectId type="Int">1</ixLoadRestObjectId>
+    </stack>
+    <globalPluginList type="ListNode">
+      <Ixia.Aptixia.StackManager.IxLoadSettingsPlugin type="Ixia.Aptixia.StackManager.IxLoadSettingsPlugin" objectid="74bfda11-ef65-47d6-bfcc-7660d78d8248" version="1.0.0">
+        <SessionData type="Ixia.Aptixia.StackManager.SessionSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+        <teardownInterfaceWithUser type="Bool">0</teardownInterfaceWithUser>
+        <interfaceBehavior type="Int">0</interfaceBehavior>
+        <PortGroupData type="Ixia.Aptixia.StackManager.PortGroupSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+        <name type="String">Settings-1</name>
+        <ixLoadRestObjectId type="Int">1</ixLoadRestObjectId>
+      </Ixia.Aptixia.StackManager.IxLoadSettingsPlugin>
+      <Ixia.Aptixia.StackManager.FilterPlugin type="Ixia.Aptixia.StackManager.FilterPlugin" objectid="0a426bc2-e4d1-4778-ad73-46265abc1591" version="6.70.420">
+        <auto type="Bool">1</auto>
+        <all type="Bool">0</all>
+        <pppoecontrol type="Bool">0</pppoecontrol>
+        <pppoenetwork type="Bool">0</pppoenetwork>
+        <isis type="Bool">0</isis>
+        <ip type="String" />
+        <tcp type="String" />
+        <udp type="String" />
+        <mac type="String" />
+        <icmp type="String" />
+        <PortGroupData type="Ixia.Aptixia.StackManager.PortGroupSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+        <SessionData type="Ixia.Aptixia.StackManager.SessionSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+        <name type="String">Filter-1</name>
+        <ixLoadRestObjectId type="Int">1</ixLoadRestObjectId>
+      </Ixia.Aptixia.StackManager.FilterPlugin>
+      <Ixia.Aptixia.StackManager.GratArpPlugin type="Ixia.Aptixia.StackManager.GratArpPlugin" objectid="46ddfa74-af1a-4053-943b-8c23653b5c9f" version="6.70.420">
+        <enabled type="Bool">1</enabled>
+        <forwardGratArp type="Bool">0</forwardGratArp>
+        <rateControlEnabled type="Bool">0</rateControlEnabled>
+        <maxFramesPerSecond type="Int">0</maxFramesPerSecond>
+        <PortGroupData type="Ixia.Aptixia.StackManager.PortGroupSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+        <SessionData type="Ixia.Aptixia.StackManager.SessionSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+        <name type="String">GratARP-1</name>
+        <ixLoadRestObjectId type="Int">1</ixLoadRestObjectId>
+      </Ixia.Aptixia.StackManager.GratArpPlugin>
+      <Ixia.Aptixia.StackManager.TCPPlugin type="Ixia.Aptixia.StackManager.TCPPlugin" objectid="f36647ac-012e-4068-bdb9-fdec12888150" version="6.70.420">
+        <bestPerfSettings type="Bool">0</bestPerfSettings>
+        <accept_ra_all type="Bool">0</accept_ra_all>
+        <tcp_abort_on_overflow type="Bool">0</tcp_abort_on_overflow>
+        <tcp_adv_win_scale type="Int">2</tcp_adv_win_scale>
+        <tcp_app_win type="Int">31</tcp_app_win>
+        <tcp_bic type="Int">0</tcp_bic>
+        <tcp_bic_fast_convergence type="Int">1</tcp_bic_fast_convergence>
+        <tcp_bic_low_window type="Int">14</tcp_bic_low_window>
+        <tcp_dsack type="Bool">1</tcp_dsack>
+        <tcp_ecn type="Bool">0</tcp_ecn>
+        <tcp_fack type="Bool">1</tcp_fack>
+        <tcp_fin_timeout type="Int">60</tcp_fin_timeout>
+        <tcp_frto type="Int">0</tcp_frto>
+        <tcp_keepalive_intvl type="Int">75</tcp_keepalive_intvl>
+        <tcp_keepalive_probes type="Int">9</tcp_keepalive_probes>
+        <tcp_keepalive_time type="Int">7200</tcp_keepalive_time>
+        <tcp_low_latency type="Int">0</tcp_low_latency>
+        <tcp_max_orphans type="Int">8192</tcp_max_orphans>
+        <tcp_max_syn_backlog type="Int">1024</tcp_max_syn_backlog>
+        <tcp_max_tw_buckets type="Int">180000</tcp_max_tw_buckets>
+        <tcp_mem_low type="Int">24576</tcp_mem_low>
+        <tcp_mem_pressure type="Int">32768</tcp_mem_pressure>
+        <tcp_mem_high type="Int">49152</tcp_mem_high>
+        <tcp_moderate_rcvbuf type="Int">0</tcp_moderate_rcvbuf>
+        <tcp_no_metrics_save type="Bool">0</tcp_no_metrics_save>
+        <tcp_orphan_retries type="Int">0</tcp_orphan_retries>
+        <tcp_reordering type="Int">3</tcp_reordering>
+        <tcp_retrans_collapse type="Bool">1</tcp_retrans_collapse>
+        <tcp_retries1 type="Int">3</tcp_retries1>
+        <tcp_retries2 type="Int">5</tcp_retries2>
+        <tcp_rfc1337 type="Bool">0</tcp_rfc1337>
+        <tcp_rmem_min type="Int">4096</tcp_rmem_min>
+        <tcp_rmem_default type="Int">4096</tcp_rmem_default>
+        <tcp_rmem_max type="Int">262144</tcp_rmem_max>
+        <tcp_sack type="Bool">1</tcp_sack>
+        <tcp_stdurg type="Bool">0</tcp_stdurg>
+        <tcp_synack_retries type="Int">5</tcp_synack_retries>
+        <tcp_syn_retries type="Int">5</tcp_syn_retries>
+        <tcp_timestamps type="Bool">1</tcp_timestamps>
+        <tcp_tw_recycle type="Bool">1</tcp_tw_recycle>
+        <tcp_tw_reuse type="Bool">0</tcp_tw_reuse>
+        <tcp_vegas_alpha type="Int">2</tcp_vegas_alpha>
+        <tcp_vegas_beta type="Int">6</tcp_vegas_beta>
+        <tcp_vegas_cong_avoid type="Int">0</tcp_vegas_cong_avoid>
+        <tcp_vegas_gamma type="Int">2</tcp_vegas_gamma>
+        <tcp_westwood type="Int">0</tcp_westwood>
+        <tcp_window_scaling type="Bool">0</tcp_window_scaling>
+        <ip_no_pmtu_disc type="Bool">1</ip_no_pmtu_disc>
+        <tcp_wmem_min type="Int">4096</tcp_wmem_min>
+        <tcp_wmem_default type="Int">4096</tcp_wmem_default>
+        <tcp_wmem_max type="Int">262144</tcp_wmem_max>
+        <tcp_ipfrag_time type="Int">30</tcp_ipfrag_time>
+        <tcp_port_min type="Int">1024</tcp_port_min>
+        <tcp_port_max type="Int">65535</tcp_port_max>
+        <tcp_rto_min type="Int">200</tcp_rto_min>
+        <tcp_rto_max type="Int">120000</tcp_rto_max>
+        <tcp_tw_rfc1323_strict type="Bool">0</tcp_tw_rfc1323_strict>
+        <udp_port_randomization type="Bool">0</udp_port_randomization>
+        <disable_min_max_buffer_size type="Bool">1</disable_min_max_buffer_size>
+        <multicast_napi type="Int">1</multicast_napi>
+        <llm_hdr_gap type="Int">8</llm_hdr_gap>
+        <llm_hdr_gap_ns type="Int">10</llm_hdr_gap_ns>
+        <inter_packet_granular_delay type="Double">0</inter_packet_granular_delay>
+        <delayed_acks type="Bool">1</delayed_acks>
+        <accept_ra_default type="Bool">0</accept_ra_default>
+        <rps_needed type="Bool">0</rps_needed>
+        <delayed_acks_segments type="Int">0</delayed_acks_segments>
+        <delayed_acks_timeout type="Int">0</delayed_acks_timeout>
+        <tcp_large_icwnd type="Int">0</tcp_large_icwnd>
+        <tcp_mgmt_rmem type="Int">87380</tcp_mgmt_rmem>
+        <tcp_mgmt_wmem type="Int">32768</tcp_mgmt_wmem>
+        <adjust_tcp_buffers type="Bool">1</adjust_tcp_buffers>
+        <PortGroupData type="Ixia.Aptixia.StackManager.PortGroupSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+        <SessionData type="Ixia.Aptixia.StackManager.SessionSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+        <name type="String">TCP-1</name>
+        <ixLoadRestObjectId type="Int">1</ixLoadRestObjectId>
+      </Ixia.Aptixia.StackManager.TCPPlugin>
+      <Ixia.Aptixia.StackManager.DnsPlugin type="Ixia.Aptixia.StackManager.DnsPlugin" objectid="95084216-085f-4adc-bcd5-54817a289787" version="6.70.420">
+        <domain type="String" />
+        <timeout type="Int">30</timeout>
+        <nameServerList type="ListNode" />
+        <searchList type="ListNode" />
+        <hostList type="ListNode" />
+        <PortGroupData type="Ixia.Aptixia.StackManager.PortGroupSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+        <SessionData type="Ixia.Aptixia.StackManager.SessionSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+        <name type="String">DNS-1</name>
+        <ixLoadRestObjectId type="Int">1</ixLoadRestObjectId>
+      </Ixia.Aptixia.StackManager.DnsPlugin>
+      <Ixia.Aptixia.StackManager.MeshingPlugin type="Ixia.Aptixia.StackManager.MeshingPlugin" objectid="13eb7b1a-8f83-4606-b5a7-f7d4b5c5891d" version="6.70.420">
+        <trafficMaps type="ListNode">
+          <Ixia.Aptixia.StackManager.MeshingTrafficMap type="Ixia.Aptixia.StackManager.MeshingTrafficMap" objectid="e4ca8a4e-b185-4528-9576-0b727df91d98" version="6.70.420">
+            <name type="String">HTTPClient1!Traffic2_HTTPServer1</name>
+            <configMapFilename type="String">HTTPClient1Script.configmap</configMapFilename>
+            <sourceActivityId type="Int">0</sourceActivityId>
+            <ipPreference type="Ixia.Aptixia.StackManager.MeshingTrafficMapSkeleton+eIpPreference">2</ipPreference>
+            <portRangesString type="String" />
+            <meshingType type="Ixia.Aptixia.StackManager.MeshingTrafficMapSkeleton+eMeshingType">2</meshingType>
+            <sourceRanges type="ListNode">
+              <Ixia.Aptixia.StackManager.IpV4V6Range type="Ixia.Aptixia.StackManager.IpV4V6Range" objectid="b4fbfa94-6764-4d96-b1c2-7eebe639c0e6" version="6.70.420" />
+            </sourceRanges>
+            <destinationRanges type="ListNode">
+              <Ixia.Aptixia.StackManager.IpV4V6Range type="Ixia.Aptixia.StackManager.IpV4V6Range" objectid="7811a7bc-91fd-4009-944e-9afea07585e0" version="6.70.420">
+                <enabled type="Bool">1</enabled>
+                <name type="String">IP-R2</name>
+                <ipType type="String">IPv4</ipType>
+                <ipAddress type="String">10.10.0.10</ipAddress>
+                <prefix type="Int">16</prefix>
+                <incrementBy type="String">0.0.0.1</incrementBy>
+                <count type="Int">1</count>
+                <autoCountEnabled type="Bool">0</autoCountEnabled>
+                <gatewayAddress type="String">10.10.0.1</gatewayAddress>
+                <gatewayIncrement type="String">0.0.0.0</gatewayIncrement>
+                <gatewayIncrementMode type="String">perSubnet</gatewayIncrementMode>
+                <enableGatewayArp type="Bool">0</enableGatewayArp>
+                <generateStatistics type="Bool">0</generateStatistics>
+                <mss type="Int">1460</mss>
+                <randomizeAddress type="Bool">0</randomizeAddress>
+                <randomizeSeed type="Int">696579423</randomizeSeed>
+                <autoMacGeneration type="Bool">1</autoMacGeneration>
+                <macRange type="Ixia.Aptixia.StackManager.MacRange" objectid="03ccb8cd-4456-4620-a9ae-8a5dbc695b93" version="6.70.420">
+                  <enabled type="Bool">1</enabled>
+                  <name type="String">MAC-R2</name>
+                  <mac type="String">00:0A:0A:00:0A:00</mac>
+                  <incrementBy type="String">00:00:00:00:00:01</incrementBy>
+                  <mtu type="Int">1500</mtu>
+                  <count type="Int">1</count>
+                  <vlanRange type="Ixia.Aptixia.StackManager.VlanIdRange" objectid="b466e240-fa0d-4f81-baf7-f4337317f0c2" version="6.70.420">
+                    <name type="String">VLAN-R2</name>
+                    <enabled type="Bool">0</enabled>
+                    <firstId type="Int">100</firstId>
+                    <incrementStep type="Int">1</incrementStep>
+                    <increment type="Int">1</increment>
+                    <uniqueCount type="Int">4094</uniqueCount>
+                    <priority type="Int">1</priority>
+                    <tpid type="String">0x8100</tpid>
+                    <innerEnable type="Bool">0</innerEnable>
+                    <innerFirstId type="Int">1</innerFirstId>
+                    <innerIncrementStep type="Int">1</innerIncrementStep>
+                    <innerIncrement type="Int">1</innerIncrement>
+                    <innerUniqueCount type="Int">4094</innerUniqueCount>
+                    <innerPriority type="Int">1</innerPriority>
+                    <idIncrMode type="Int">2</idIncrMode>
+                    <innerTpid type="String">0x8100</innerTpid>
+                    <ixLoadRestObjectId type="Int">2</ixLoadRestObjectId>
+                  </vlanRange>
+                  <ixLoadRestObjectId type="Int">2</ixLoadRestObjectId>
+                </macRange>
+                <vlanRange type="Ixia.Aptixia.StackManager.VlanIdRange" objectid="b466e240-fa0d-4f81-baf7-f4337317f0c2" version="6.70.420" />
+                <atmRange type="Ixia.Aptixia.StackManager.AtmRange" objectid="00000000-0000-0000-0000-000000000000" />
+                <pvcRange type="Ixia.Aptixia.StackManager.PvcRange" objectid="00000000-0000-0000-0000-000000000000" />
+                <autoIpTypeEnabled type="Bool">0</autoIpTypeEnabled>
+                <ixLoadRestObjectId type="Int">2</ixLoadRestObjectId>
+              </Ixia.Aptixia.StackManager.IpV4V6Range>
+            </destinationRanges>
+            <destinationActivityId type="Int">0</destinationActivityId>
+          </Ixia.Aptixia.StackManager.MeshingTrafficMap>
+        </trafficMaps>
+        <activityRangeMapInfoList type="ListNode" />
+        <PortGroupData type="Ixia.Aptixia.StackManager.PortGroupSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+        <SessionData type="Ixia.Aptixia.StackManager.SessionSpecificData" objectid="00000000-0000-0000-0000-000000000000" />
+        <name type="String">Meshing-2</name>
+        <ixLoadRestObjectId type="Int">1</ixLoadRestObjectId>
+      </Ixia.Aptixia.StackManager.MeshingPlugin>
+    </globalPluginList>
+    <portList type="StringList">
+      <String>172.16.174.129;1;1</String>
+    </portList>
+    <typeSpecificData type="ListNode">
+      <Ixia.Aptixia.StackManager.IPSecPortGroupData type="Ixia.Aptixia.StackManager.IPSecPortGroupData" objectid="10cb67d9-316d-4054-b890-76a6d71bb5c4" version="6.70.0">
+        <role type="String">Initiator</role>
+        <associates type="ListNode" />
+        <overrideGlobalOptions type="Bool">0</overrideGlobalOptions>
+        <useMaxInitiationRate type="Bool">0</useMaxInitiationRate>
+        <maxInitiationRate type="Int">50</maxInitiationRate>
+        <useMaxPendingTunnels type="Bool">0</useMaxPendingTunnels>
+        <maxPendingTunnels type="Int">50</maxPendingTunnels>
+        <teardownRate type="Int">10</teardownRate>
+        <enableESPPerStreamStats type="Bool">0</enableESPPerStreamStats>
+        <enableESPReplayStats type="Bool">0</enableESPReplayStats>
+        <activities type="ListNode" />
+        <pcpuLogLevel type="String">0</pcpuLogLevel>
+        <ixLoadRestObjectId type="Int">1</ixLoadRestObjectId>
+      </Ixia.Aptixia.StackManager.IPSecPortGroupData>
+    </typeSpecificData>
+    <virtualMode type="Bool">0</virtualMode>
+    <allowedVirtualModeTypes type="StringList" />
+    <doOwnership type="Bool">0</doOwnership>
+    <branchToNicMap type="ListNode" />
+    <cpuAggregation type="Bool">0</cpuAggregation>
+    <activePort type="String" />
+    <networkLayersManager type="Ixia.Aptixia.StackManager.NetworkLayersManager" objectid="adedbac1-a70a-4f1c-8023-1309a7eb4de3" version="6.70.420" />
+    <ixLoadRestObjectId type="Int">1</ixLoadRestObjectId>
+  </Ixia.Aptixia.StackManager.PortGroup>
+</rpf>
+</root>

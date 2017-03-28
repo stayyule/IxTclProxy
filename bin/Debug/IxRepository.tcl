@@ -29,12 +29,16 @@ namespace eval IXIA {
         } err ] } {
             return ""
         }        
-        
         set latestKey      [ lindex $versionKey end ]
-        set mutliVKeyIndex [ lsearch $versionKey "Multiversion" ]
-        if { $mutliVKeyIndex > 0 } {
-           set latestKey   [ lindex $versionKey [ expr $mutliVKeyIndex - 2 ] ]
+        if { $latestKey == "Multiversion" } {
+            set latestKey   [ lindex $versionKey [ expr [ llength $versionKey ] - 2 ] ]
+            if { $latestKey == "InstallInfo" } {
+                set latestKey   [ lindex $versionKey [ expr [ llength $versionKey ] - 3 ] ]
+            }
+        } elseif { $latestKey == "InstallInfo" } {
+            set latestKey   [ lindex $versionKey [ expr [ llength $versionKey ] - 2 ] ]
         }
+        
         set installInfo    [ append productKey \\ $latestKey \\ InstallInfo ]            
         return             "[ registry get $installInfo  HOMEDIR ]/TclScripts/bin/ixiawish.tcl"   
     }
@@ -1402,7 +1406,7 @@ proc Config { tcName rxfName { network_port1 "" } { network_port2 "" } { network
             }
         }
         
-        IXIA::Deputs "----- *************TAG: $chassisList, $networkList, $portList -----"
+        IXIA::Deputs "----- TAG: $chassisList, $networkList, $portList -----"
         
         if { [llength $chassisList] != 0 } {
             IXIA::configRepository -chassis $chassisList
@@ -1498,7 +1502,7 @@ proc StartTraffic {} {
 #      Log   : 
 #--
 #
-proc waitTestToFinish { { timeout 60 } } {
+proc waitTestToFinish { { timeout 120 } } {
     set tag "proc waitTestToFinish $timeout "
     IXIA::Deputs "----- TAG: $tag -----"
     if { [ catch {
@@ -1558,4 +1562,166 @@ proc CleanUp { } {
     IXIA::Deputs "  proc CleanUp over  "
     return [GetStandardReturnHeader true]
 }
+
+#--
+# ConfigUDP - Configure UDP parameters in test
+#--
+# Parameters :
+#Return :
+#      Status: true/false
+#      Log   : If Status is false, it's error information, otherwise is empty
+#--
+#
+proc ConfigUDP {objName args} {
+    set tag "proc ConfigUDP [info script]"
+    IXIA::Deputs "----- TAG: $tag -----"
+    
+    set actObj [ getActivity $objName ]
+
+    foreach { key value } $args {
+        IXIA::Deputs "config -$key--$value"
+        set key [string tolower $key]
+        switch -exact -- $key {
+            -commandtype -
+            -duration {
+                set duration $value
+            }
+        }
+    }
+    
+    return 0
+}
+
+#--
+# ConfigS1 - Configure S1 parameters in test
+#--
+# Parameters :
+#Return :
+#      Status: true/false
+#      Log   : If Status is false, it's error information, otherwise is empty
+#--
+#
+proc ConfigS1 {objName args} {
+    set tag "proc ConfigS1 [info script]"
+    IXIA::Deputs "----- TAG: $tag -----"
+    
+    set actObj [ getActivity $objName ]
+
+    foreach { key value } $args {
+        IXIA::Deputs "config -$key--$value"
+        set key [string tolower $key]
+        switch -exact -- $key {
+            -commandtype -
+            -duration {
+                set duration $value
+            }
+        }
+    }
+    
+    return 0   
+}
+
+#--
+# ConfigSCTP - Configure SCTP parameters in test
+#--
+# Parameters :
+#	-usemultihomingtar: If you are configuring SCTP multi-homing for any of
+#                           the stacks that are present in the IxLoad test scenario,
+#                           then you should also enable this setting. Otherwise,
+#                           there is no need to enable it
+#	-heartbeatinterval: The value of the HB.interval protocol parameter
+#	-maxinitretrans   : The value of the Max.Init.Retransmits protocol parameter
+#	-betarto          : The value of the RTO.Beta protocol parameter
+#	-initialrto       : The value of the initial timeout 
+#	-maxpathpetrans   : The value of the Path.Max.Retrans protocol parameter
+#	-minrto           : The value of the minimum timeout 
+#	-alpharto         : The value of the RTO.Alpha protocol parameter
+#	-cookielife       : The value of the Valid.Cookie.Life protocol parameter
+#	-maxrto           : The value of the maximum timeout 
+#	-maxassocretrans  : The value of the Association.Max.Retrans protocol parameter
+#	-maxburst         : The value of the Max.Burst protocol parameter
+#	-heartbeatmaxburst: The value of the Max.Burst protocol parameter
+#Return :
+#      Status: true/false
+#      Log   : If Status is false, it's error information, otherwise is empty
+#--
+#
+proc ConfigSCTP {objName args} {
+    set tag "proc ConfigSCTP [info script]"
+    IXIA::Deputs "----- TAG: $tag -----"
+    
+    set network [ IXIA::getNetwork $objName ]
+    set cnt [$network globalPlugins.indexCount]
+    set i 0
+    while { $i < $cnt } {
+        set name [$network globalPlugins($i).name]
+        if { [regexp {SCTP} $name total] } {
+            set sctp [$network globalPlugins($i)]                  
+            break
+        }
+        set i [ expr $i + 1 ]
+    }
+        
+    foreach { key value } $args {
+        IXIA::Deputs "config -$key--$value"
+        set key [string tolower $key]
+        switch -exact -- $key {
+            -alpharto {
+                IXIA::Deputs "$sctp config -alphaRTO $value"
+                $sctp config -alphaRTO $value
+            }
+            -betarto {
+                IXIA::Deputs "$sctp config -betaRTO $value"
+                $sctp config -betaRTO $value 
+            }
+            -cookielife {
+                IXIA::Deputs "$sctp config -cookieLife $value"
+                $sctp config -cookieLife $value
+            }
+            -heartbeatinterval {
+                IXIA::Deputs "$sctp config -heartbeatInterval $value"
+                $sctp config -heartbeatInterval $value
+            }
+            -heartbeatmaxburst {
+                IXIA::Deputs "$sctp config -heartbeatMaxBurst $value"
+                $sctp config -heartbeatMaxBurst $value
+            }
+            -initialrto {
+                IXIA::Deputs "$sctp config -initialRTO $value"
+                $sctp config -initialRTO $value
+            }
+            -maxassocretrans {
+                IXIA::Deputs "$sctp config -maxAssocRetrans $value"
+                $sctp config -maxAssocRetrans $value
+            }
+            -maxburst {
+                IXIA::Deputs "$sctp config -maxBurst $value"
+                $sctp config -maxBurst $value
+            }
+            -maxinitretrans {
+                IXIA::Deputs "$sctp config -maxInitRetrans $value"
+                $sctp config -maxInitRetrans $value
+            }
+            -maxpathpetrans {
+                IXIA::Deputs "$sctp config -maxPathRetrans $value"
+                $sctp config -maxPathRetrans $value
+            }
+            -minrto {
+                IXIA::Deputs "$sctp config -minRTO $value"
+                $sctp config -minRTO $value
+            }
+            -maxrto {
+                IXIA::Deputs "$sctp config -maxRTO $value"
+                $sctp config -maxRTO $value
+            }
+            -usemultihomingtar {
+                IXIA::Deputs "$sctp config -useMultiHomingTar $value"
+                $sctp config -useMultiHomingTar $value
+            }
+        }
+    }
+
+    return 0    
+}
+
 # -- Changes end

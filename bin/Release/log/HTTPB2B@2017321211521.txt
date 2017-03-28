@@ -1,0 +1,34 @@
+172.16.174.129:50637 - set ::tcName HTTPB2B
+<TIME:21:15:21><=
+set ::tcName HTTPB2B
+<TIME:21:15:21>=>
+HTTPB2B
+172.16.174.129:50640 - Init Z:/Ixia/Configs/HTTPB2B.rxf
+<TIME:21:15:34><=
+Init Z:/Ixia/Configs/HTTPB2B.rxf
+Monitor thread started IMMonitor Event Thread
+<TIME:21:15:34>=>
+{Status:true###Log:###}
+self.__testController: <Lib.TestController.ixTestController.ixTestController object at 0x193494F0>
+done
+*Debug 03/21 21:15:36.375 ixLogger: Current Date is 03/21/2017
+*Info 03/21 21:15:36.375 Test Controller : Initializing Sdm Service. Searching for free port...
+*Warning 03/21 21:15:39.884 CalSdmService: SDM service listening port is now: 8050.
+Initializing TCLApiTestController
+SYNC: Network2 @ Tue Mar 21 21:15:47 2017 - duration - 0.0859999656677
+SYNC: Network1 @ Tue Mar 21 21:15:47 2017 - duration - 0.00799989700317
+172.16.174.129:50645 - ConfigSCTP Network1 -alphaRTO 11
+<TIME:21:15:53><=
+ConfigSCTP Network1 -alphaRTO 11
+<TIME:21:15:53>=>
+0
+172.16.174.129:50647 - ConfigUDP StatelessPeer1 -parallelcmdcnt 1111
+<TIME:21:16:02><=
+ConfigUDP StatelessPeer1 -parallelcmdcnt 1111
+<TIME:21:16:02>Err=>
+Activity not found...
+172.16.174.129:50658 - Config HTTPB2B HTTPB2B {Network1:172.16.174.129/1/1 Network2:172.16.174.129/2/1}
+<TIME:21:17:07><=
+Config HTTPB2B HTTPB2B {Network1:172.16.174.129/1/1 Network2:172.16.174.129/2/1}
+<TIME:21:17:07>Err=>
+can't read "network_port1": no such variable
