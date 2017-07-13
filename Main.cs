@@ -51,6 +51,10 @@ namespace IxTclProxy
 
         private void toolStripButtonStop_Click(object sender, EventArgs e)
         {
+            if (socket == null)
+            {
+                return;
+            }
             socket.Stop();
             timerOutput.Stop();
             toolStripButtonStart.Enabled = true;
@@ -73,30 +77,49 @@ namespace IxTclProxy
                 return;
             }
 
-            if (socket.TclOutput.Count > 0 && outputIndex != socket.TclOutput.Count - 1)
-            {
-                richTextBoxOutput.Text = "";
-                richTextBoxOutput.SelectionColor = Color.MediumSeaGreen;
-                richTextBoxOutput.AppendText(socket.TclOutput[socket.TclOutput.Count-1] + "\n");
-
-            }
-
+            richTextBoxOutput.Text = "";
             richTextBoxLog.Text = "";
-            richTextBoxLog.SelectionColor = Color.BlueViolet;
-            foreach(string log in socket.TclOutput)
-            {
-                richTextBoxLog.AppendText(log + "\n");
-            }
-
             richTextBoxError.Text = "";
-            richTextBoxError.SelectionColor = Color.Red;
-            foreach (string log in socket.TclErr)
+
+            int count = socket.TclOutput.Count;
+            int startIndex = 0;
+            if (count > 0)
             {
-                richTextBoxError.AppendText(log + "\n");
+                if (count > 100)
+                {
+                    startIndex = count - 100;
+                }
+                List<string> outputRange = socket.TclOutput.GetRange(startIndex, count - startIndex);
+
+                if (outputRange.Count > 0 && outputIndex != outputRange.Count - 1)
+                {
+                    richTextBoxOutput.SelectionColor = Color.MediumSeaGreen;
+                    richTextBoxOutput.AppendText(outputRange[outputRange.Count - 1] + "\n");
+
+                }
+
+                richTextBoxLog.SelectionColor = Color.BlueViolet;
+                foreach (string log in outputRange)
+                {
+                    richTextBoxLog.AppendText(log + "\n");
+                }
             }
-        }
+            count = socket.TclErr.Count;
+            startIndex = 0;
+            if (count > 0)
+            {
+                if (count > 50)
+                {
+                    startIndex = count - 50;
+                }
+                List<string> outputErrRange = socket.TclErr.GetRange(startIndex, count - startIndex);
 
-
-        
+                richTextBoxError.SelectionColor = Color.Red;
+                foreach (string log in outputErrRange)
+                {
+                    richTextBoxError.AppendText(log + "\n");
+                }
+            }
+        }  
     }
 }

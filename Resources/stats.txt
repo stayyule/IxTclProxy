@@ -1,0 +1,52 @@
+
+{"HTTP Client" "HTTP Bytes Received" "kSum"}
+{"HTTP Client" "HTTP Transactions" "kSum"}                                             
+{"HTTP Client" "HTTP Bytes Sent" "kSum"}
+{"HTTP Client" "HTTP Connect Time (ms)" "kWeightedAverage"}
+{"HTTP Client" "HTTP Time To First Byte (ms)" "kWeightedAverage"}
+{"HTTP Client" "HTTP Time To Last Byte (ms)" "kWeightedAverage"}
+{"HTTP Client" "TCP Connections Established" "kSum"}
+{"HTTP Client" "TCP Connections in ESTABLISHED State" "kSum"}
+{"HTTP Client" "TCP Retries" "kMax"}
+{"HTTP Server" "HTTP Requests Successful" "kSum"}
+{"HTTP Server" "HTTP Requests Received" "kSum"}
+{"HTTP Server" "HTTP Requests Failed" "kSum"}
+{"HTTP Server" "TCP Connections Established" "kSum"}
+{"HTTP Server" "TCP Connections in ESTABLISHED State" "kSum"}
+{"HTTP Server" "TCP Retries" "kSum"}
+{"FTP Client" "FTP Data Bytes Sent" "kSum"}
+{"FTP Client" "FTP Data Bytes Received" "kSum"}
+{"FTP Client" "FTP Control Bytes Sent" "kSum"}
+{"FTP Client" "FTP Control Bytes Received" "kSum"}
+{"FTP Client" "FTP Control Connection Latency (ms)" "kWeightedAverage"}
+{"FTP Client" "FTP Data Connection Latency (Passive Mode) (ms)" "kWeightedAverage"}
+{"FTP Client" "FTP Transactions" "kSum"}
+{"FTP Client" "FTP File Downloads Successful" "kSum"}
+{"FTP Client" "FTP File Downloads Failed" "kSum"}
+{"FTP Server" "FTP Data Bytes Sent" "kSum"}
+{"FTP Server" "FTP Data Bytes Received" "kSum"}
+{"FTP Server" "FTP Control Bytes Sent" "kSum"}
+{"FTP Server" "FTP Control Bytes Received" "kSum"}
+{"FTP Server" "FTP Data Connection Latency (Active Mode) (ms)" "kWeightedAverage"}
+{"SMTP Client" "SMTP Total Bytes Sent" "kSum"}
+{"SMTP Client" "SMTP Total Bytes Received" "kSum"}
+{"SMTP Client" "SMTP Transactions" "kSum"}
+{"SMTP Client" "SMTP Mails Sent" "kSum"}
+{"SMTP Server" "SMTP Total Bytes Sent" "kSum"}
+{"SMTP Server" "SMTP Total Bytes Received" "kSum"}
+{"SMTP Server" "SMTP Session Requests Received" "kSum"}
+{"SMTP Server" "SMTP Mails Received" "kSum"}
+{"IMAP Client" "IMAP Total Bytes Sent and Received" "kSum"}
+{"IMAP Client" "IMAP Transactions" "kSum"}
+{"IMAP Client" "IMAP Total Mails Received" "kSum"}
+{"IMAP Server" "IMAP Total Bytes Sent and Received" "kSum"}
+{"IMAP Server" "IMAP Session Requests Received" "kSum"}
+{"IMAP Server" "IMAP Total Mails Sent" "kSum"}
+{"POP3 Client" "POP3 Total Bytes Sent" "kSum"}
+{"POP3 Client" "POP3 Total Bytes Received" "kSum"}
+{"POP3 Client" "POP3 Transactions" "kSum"}
+{"POP3 Client" "POP3 Mails Received" "kSum"}
+{"POP3 Server" "POP3 Total Bytes Sent" "kSum"}
+{"POP3 Server" "POP3 Total Bytes Received" "kSum"}
+{"POP3 Server" "POP3 Session Requests Received" "kSum"}
+{"POP3 Server" "POP3 Total Mails Sent" "kSum"}

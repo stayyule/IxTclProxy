@@ -1,0 +1,258 @@
+{Status:true
+Log:172.16.174.129:50704 - set ::tcName HTTPB2B
+<TIME:21:22:19><=
+set ::tcName HTTPB2B
+<TIME:21:22:19>=>
+HTTPB2B
+172.16.174.129:50705 - Init Z:/Ixia/Configs/HTTPB2B.rxf
+<TIME:21:22:21><=
+Init Z:/Ixia/Configs/HTTPB2B.rxf
+Monitor thread started IMMonitor Event Thread
+<TIME:21:22:21>=>
+{Status:true
+Log:
+}
+self.__testController: <Lib.TestController.ixTestController.ixTestController object at 0x193CE4F0>
+done
+*Debug 03/21 21:22:23.15 ixLogger: Current Date is 03/21/2017
+*Info 03/21 21:22:23.15 Test Controller : Initializing Sdm Service. Searching for free port...
+*Warning 03/21 21:22:26.259 CalSdmService: SDM service listening port is now: 8050.
+Initializing TCLApiTestController
+SYNC: Network2 @ Tue Mar 21 21:22:31 2017 - duration - 0.0620000362396
+SYNC: Network1 @ Tue Mar 21 21:22:32 2017 - duration - 0.0149998664856
+172.16.174.129:50713 - ConfigSCTP Network1 -alphaRTO 11
+<TIME:21:22:47><=
+ConfigSCTP Network1 -alphaRTO 11
+<TIME:21:22:47>=>
+0
+172.16.174.129:50714 - ConfigUDP StatelessPeer1 -parallelcmdcnt 1111
+<TIME:21:22:48><=
+ConfigUDP StatelessPeer1 -parallelcmdcnt 1111
+<TIME:21:22:48>Err=>
+Activity not found...
+172.16.174.129:50715 - Config HTTPB2B HTTPB2B {Network1:172.16.174.129/1/1 Network2:172.16.174.129/2/1}
+<TIME:21:22:52><=
+Config HTTPB2B HTTPB2B {Network1:172.16.174.129/1/1 Network2:172.16.174.129/2/1}
+<TIME:21:22:52>=>
+{Status:true
+Log:
+}
+*Warning 03/21 21:22:52.437 Test Controller : Path 'Z:\Ixia\Workspace\IxTclProxy\bin\Release\HTTPB2B\HTTPB2B@20170321212252' passed to setResultDir is longer than maximum path length of 69 and might cause run-time error.
+*Info 03/21 21:22:52.483 ixChassisChain : Removing chassis 172.16.174.137
+*Info 03/21 21:23:13.950 ixChassisChain : Chassis 172.16.174.137 has been removed.
+*Info 03/21 21:23:13.950 ixChassisChain : Validating that 172.16.174.129 has a valid network address.
+*Info 03/21 21:23:13.967 ixChassisChain : Chassis 172.16.174.129 has a valid network address.
+*Info 03/21 21:23:13.967 ixChassisChain : Validating that 172.16.174.129 accepts incoming connections. Will try to connect for 10 seconds.
+*Info 03/21 21:23:15.12 ixChassisChain : Validation for 172.16.174.129 is completed. IP is valid and connection succeeded.
+*Info 03/21 21:23:15.12 ixChassis 172.16.174.129: Connecting to chassis 172.16.174.129
+*Info 03/21 21:23:19.786 ixChassis 172.16.174.129: Connected successfully to the chassis 172.16.174.129
+****smObjectChanged: Network1 marked dirty
+****smObjectChanged: Network2 marked dirty
+SYNC: Network1 @ Tue Mar 21 21:23:20 2017 - duration - 0.0160000324249
+SYNC: Network2 @ Tue Mar 21 21:23:20 2017 - duration - 0.0
+172.16.174.129:50739 - IXIA::save Z:/Ixia/Configs/HTTPB2B_debug.rxf
+<TIME:21:23:39><=
+IXIA::save Z:/Ixia/Configs/HTTPB2B_debug.rxf
+<TIME:21:23:39>=>
+
+172.16.174.129:50753 - StartTraffic
+<TIME:21:25:10><=
+StartTraffic
+*Warning 03/21 21:25:11.542 NetTraffic Traffic1@Network1: Community Traffic1@Network1 does not support Performance Acceleration and it has been disabled. Make sure that the network and activities support it, and that only activities of a single protocol type are enabled.
+*Warning 03/21 21:25:11.730 NetTraffic Traffic1@Network1: The number of Simulated Users configured (100) is greater than the total IPv4 Pool Size (1) for activity 'HTTPClient1' in Client Traffic-Network Mapping 'Traffic1@Network1'. Some users will use the same addresses as others.
+Protocols in current community : HTTP
+*Warning 03/21 21:25:11.776 Network Network2: Network Network2 only supports Performance Acceleration for card types: ['Xcellon-Ultra NG', 'Xcellon-Ultra NP', 'Xcellon-Ultra XP', 'FCM GXM4', 'FCM GXM8', 'NGY-Np2', 'NGY-Np4', 'NGY-Np8', 'PerfectStorm 10GE8', 'PerfectStorm 100GE1NG', 'PerfectStorm 10GE8NG', 'PerfectStorm 10GE8NG Aggregated', 'PerfectStorm 40GE2', 'PerfectStorm 40GE2 Aggregated', 'PerfectStorm 40GE2NG', 'PerfectStorm 40GE2NG Aggregated', 'PerfectStorm 10GE8 Aggregated', 'PerfectStorm Plus 10GE8', 'PerfectStorm Plus 40GE2', 'PerfectStorm Plus 10GE8 Aggregated', 'Xcellon-Ultra XT160', 'Xcellon-Ultra XT80', 'Xcellon-Ultra XT80-V2', 'Xcellon-Ultra XTS08', 'Xcellon-Ultra XTS16 ', 'Xcellon-Ultra XTS40', 'Xcellon-Ultra NP', 'Xcellon-Ultra XP']
+*Warning 03/21 21:25:11.776 NetTraffic Traffic2@Network2: Community Traffic2@Network2 does not support Performance Acceleration and it has been disabled. Make sure that the network and activities support it, and that only activities of a single protocol type are enabled.
+ixPortController for card (1,2) reports isMultiNic = True
+ixPortController for card (1,1) reports isMultiNic = True
+*Info 03/21 21:25:12.634 ixChassisChain : Successfully took ownership on the ports [[1, 1, 1], [1, 2, 1]]
+*Info 03/21 21:25:12.729 Test Controller: Tearing down all network interfaces started...
+*Info 03/21 21:25:12.884 Test Controller: Tearing down all interfaces completed...
+*Info 03/21 21:25:12.900 ixChassisChain : Resetting factory defaults on the ports [[1, 1, 1], [1, 2, 1]].
+*Info 03/21 21:25:18.359 ixChassisChain : Rebooting ports [[1, 1, 1], [1, 2, 1]] ...
+<TIME:21:25:10>=>
+{Status:true
+Log:
+}
+*Info 03/21 21:27:21.632 ixChassisChain : Done rebooting ports [[1, 1, 1], [1, 2, 1]].
+*Info 03/21 21:27:22.349 Test: Verifying license availability for test Test1...
+*Warning 03/21 21:27:22.509 Licensing: License VM-IXL-TIER1 is not available on server. Activity HTTPClient1 will checkout superior tier license: VM-IXL-TIER3
+objectiveType Simulated Users
+*Info 03/21 21:27:22.509 Licensing: Activity "HTTPClient1" requires 0.001 VM-IXL-TIER3 license units due to Primary Objective.One license unit enables 100000 Simulated Users.
+*Info 03/21 21:27:22.509 Licensing: NetTraffic "Traffic1@Network1" requires 1 VM-IXL-TIER3 license units.
+*Info 03/21 21:27:22.509 Licensing: NetTraffic "Traffic2@Network2" requires 1 VM-IXL-TIER3 license units.
+*Info 03/21 21:27:22.555 Licensing: Checking out license for feature(s) VM-IXL-TIER3 for chassis 172.16.174.129 on license server ['@localhost'] ...
+*Info 03/21 21:27:22.680 Licensing: License check out succeeded for test Test1
+*Info 03/21 21:27:22.680 Licensing: Checking in license for test Test1...
+*Info 03/21 21:27:22.680 Licensing: Checking in license for feature(s) VM-IXL-TIER3 for chassis 172.16.174.129 on license server ['@localhost']...
+*Info 03/21 21:27:22.680 Licensing: License check in succeeded for test Test1.
+
+*Info 03/21 21:27:22.680 Test: License availability verification succeeded for test Test1.
+*Info 03/21 21:27:22.680 Test Controller : Downloading IxLoadAuto package
+getMatchingPluginPackagesFromRule: returns packageNameList = ['Plugins/agent/HTTP_Server/httpServer_quick.tar']
+getMatchingPluginPackagesFromRule: returns packageNameList = ['Plugins/agent/HTTP_Server/httpServer_quick.tar']
+
+
+
+ createDoDPackageofPayloadFiles
+
+++++ [New SSl 0 :  KernSSL 0 : KseSSL 0 : KseSSLHTTP 1 ]
+getMatchingPluginPackagesFromRule: returns packageNameList = ['Plugins/agent/HTTP_Client/httpClient.tar']
+++++ [New SSl 0 :  KernSSL 0 : KseSSL 0 : KseSSLHTTP 1 ]
+getMatchingPluginPackagesFromRule: returns packageNameList = ['Plugins/agent/HTTP_Client/httpClient.tar']
+*Info 03/21 21:27:48.773 Test Controller : Downloading packages 'IxLoad_framework, stackAdapter, linuxStackAdapter, httpServer_quick' for community 'Traffic2@Network2'
+*Info 03/21 21:28:31.895 Test Controller : Downloading packages 'IxLoad_framework, libksessl_http, httpClient' for community 'Traffic1@Network1'
+****smObjectChanged: Network1 marked dirty
+SYNC: Network1 @ Tue Mar 21 21:29:07 2017 - duration - 0.0
+*Info 03/21 21:29:07.664 Test Controller: Starting network configuration
+*Info 03/21 21:29:08.257 Network: Network Session : Configuring
+*Info 03/21 21:29:08.474 Network: Port Group (Network1) : Ownership taken
+*Info 03/21 21:29:08.474 Network: Port Group (Network2) : Ownership taken
+*Warning 03/21 21:29:16.928 Network: (Ethernet-2) 'Auto Negotiate' feature is not supported for card type 'Ixia Virtual Load Module'
+*Info 03/21 21:29:16.928 Network: MacSessionData : Validated
+*Warning 03/21 21:29:16.928 Network: (Ethernet-1) 'Auto Negotiate' feature is not supported for card type 'Ixia Virtual Load Module'
+*Info 03/21 21:29:16.928 Network: IpSessionData : Validated
+*Info 03/21 21:29:16.928 Network: IxLoadSessionData : Validated
+*Info 03/21 21:29:16.928 Network: Settings (Settings-2) : Validated
+*Info 03/21 21:29:16.928 Network: Settings (Settings-1) : Validated
+*Info 03/21 21:29:17.85 Network: Network Session : Configured
+*Info 03/21 21:29:20.673 Network: Ethernet (Ethernet-2) : Configured
+*Info 03/21 21:29:20.673 Network: Ethernet (Ethernet-1) : Configured
+*Info 03/21 21:29:22.529 Network: IP (IP-1) : Partially Configured
+*Info 03/21 21:29:22.561 Network: IP (IP-2) : Partially Configured
+*Info 03/21 21:29:22.575 Network: Filter (Filter-2) : Configured statistics
+*Info 03/21 21:29:22.575 Network: TCP (TCP-2) : Configured statistics
+*Info 03/21 21:29:22.575 Network: TCP (TCP-1) : Configured statistics
+*Info 03/21 21:29:22.575 Network: Filter (Filter-1) : Configured statistics
+*Info 03/21 21:29:22.575 Network: DNS (DNS-2) : Configured statistics
+*Info 03/21 21:29:22.575 Network: DNS (DNS-1) : Configured statistics
+*Info 03/21 21:29:22.575 Network: MAC/VLAN (MAC/VLAN-1) : Configured statistics
+*Info 03/21 21:29:22.575 Network: MAC/VLAN (MAC/VLAN-2) : Configured statistics
+*Info 03/21 21:29:22.575 Network: IPSecSessionData : Configured
+*Info 03/21 21:29:42.700 Network: Meshing (Meshing-2) : Configured
+*Info 03/21 21:29:42.793 Network: Meshing (Meshing-1) : Configured
+*Info 03/21 21:29:42.793 Network: GratARP (GratARP-2) : Configured
+*Info 03/21 21:29:42.793 Network: GratARP (GratARP-1) : Configured
+*Warning 03/21 21:29:42.825 Network: Plugin 'GratARP-2' on 'Network2' does not support card type 'Ixia Virtual Load Module'
+*Info 03/21 21:29:42.825 Network: GratARP (GratARP-2) : Configured
+*Info 03/21 21:29:42.841 Network: IP (IP-2) : Negotiated
+*Info 03/21 21:29:42.841 Network: IP (IP-1) : Negotiated
+*Warning 03/21 21:29:42.871 Network: Plugin 'GratARP-1' on 'Network1' does not support card type 'Ixia Virtual Load Module'
+*Info 03/21 21:29:42.871 Network: GratARP (GratARP-1) : Configured
+*Info 03/21 21:29:42.903 Network: Port Group (Network1) : Layer 7 Enabled
+*Info 03/21 21:29:42.903 Network: Port Group (Network2) : Layer 7 Enabled
+*Info 03/21 21:29:42.934 Network: OK - Meshing (Meshing-1) : Enabling Traffic
+*Info 03/21 21:29:42.980 Network: OK - Meshing (Meshing-2) : Enabling Traffic
+*Info 03/21 21:29:43.12 Network: OK - Meshing-2 - configuring
+*Info 03/21 21:29:43.153 Network: Meshing (Meshing-1) : Traffic Enabled
+*Info 03/21 21:29:43.387 Network: OK - Meshing-2 - 1 port(s) succeeded to enable traffic 
+*Info 03/21 21:29:43.387 Network: Meshing (Meshing-2) : Traffic Enabled
+*Info 03/21 21:29:43.480 Test Controller: Network configured successfully
+*Info 03/21 21:29:43.542 Community Controller Traffic1@Network1: Applying traffic configuration for the community Traffic1@Network1
+Protocols in current community : HTTP
+*Info 03/21 21:29:43.947 Community Controller Traffic2@Network2: Applying traffic configuration for the community Traffic2@Network2
+objectiveType Simulated Users
+sendProfilesMsg
+mem per active connection = 11788
+mem per active connection = 100220
+objectiveType Simulated Users
+objectiveType Simulated Users
+objectiveType Simulated Users
+objectiveType Simulated Users
+objectiveType Simulated Users
+objectiveType Simulated Users
+tpsVal -1, cpsVal -1
+
+++++ [New SSl 0 :  KernSSL 0 : KseSSL 0 : KseSSLHTTP 1 ]
+getMatchingPluginPackagesFromRule: returns packageNameList = ['Plugins/agent/HTTP_Client/httpClient.tar']
+getMatchingPluginPackagesFromRule: returns packageNameList = ['Plugins/agent/HTTP_Server/httpServer_quick.tar']
+*Warning 03/21 21:29:53.674 Test Controller: Only 0.68 GB of free disk space!
+*Info 03/21 21:29:53.986 Licensing: NetTraffic "Traffic1@Network1" requires 1 VM-IXL-TIER3 license units.
+*Info 03/21 21:29:54.2 Licensing: NetTraffic "Traffic2@Network2" requires 1 VM-IXL-TIER3 license units.
+*Info 03/21 21:29:54.17 Licensing: Checking out license for feature(s) VM-IXL-TIER3 for chassis 172.16.174.129 on license server ['@localhost'] ...
+*Info 03/21 21:29:54.122 Licensing: License check out succeeded for test Test1
+*Warning 03/21 21:29:54.625 Test Controller: Only 0.68 GB of free disk space!
+*Info 03/21 21:29:55.950 ixChassisChain : Clearing stats on ports [(1,1,1), (1,2,1)]
+Non-aggregated raw agent stat '172.16.174.129/Card2/Port1/State/HTTPServer1:Run State'
+Non-aggregated raw agent stat '172.16.174.129/Card1/Port1/State/HTTPClient1:Run State'
+Non-aggregated raw agent stat '172.16.174.129/Card2/Port1/State/HTTPServer1:Run State'
+Non-aggregated raw agent stat '172.16.174.129/Card1/Port1/State/HTTPClient1:Run State'
+*Info 03/21 21:30:02.822 Network: GratARP (GratARP-1) : Activated
+*Info 03/21 21:30:02.822 Network: GratARP (GratARP-2) : Activated
+*Info 03/21 21:30:02.838 Test Controller : Port Group Activated
+*Info 03/21 21:30:02.838 Test Controller : Port Group Activated
+*Info 03/21 21:30:02.994 Test Controller: Starting the STAT Requests...
+*Info 03/21 21:30:03.976 Test Controller : The Stat requests are done for publisher IxLoad
+*Info 03/21 21:30:05.927 Test Controller: Test is Running.
+++++ [New SSl 0 :  KernSSL 0 : KseSSL 0 : KseSSLHTTP 1 ]
+getMatchingPluginPackagesFromRule: returns packageNameList = ['Plugins/agent/HTTP_Client/httpClient.tar']
+getMatchingPluginPackagesFromRule: returns packageNameList = ['Plugins/agent/HTTP_Server/httpServer_quick.tar']
+*Info 03/21 21:32:04.161 Licensing: Checking in license for test Test1...
+*Info 03/21 21:32:04.161 Licensing: Checking in license for feature(s) VM-IXL-TIER3 for chassis 172.16.174.129 on license server ['@localhost']...
+*Info 03/21 21:32:04.161 Licensing: License check in succeeded for test Test1.
+
+*Info 03/21 21:32:05.98 Community Controller: Cleaning traffic and network configuration for the community Traffic1@Network1 on port(s) [(1,1,1)]
+*Info 03/21 21:32:05.767 Traffic Traffic1: Cleaning up activities for community Traffic1@Network1
+*Info 03/21 21:32:05.767 Traffic Traffic1: Deleting downloaded packages ['httpClient', 'libksessl_http', 'IxLoad_framework'] on ports [(1,1,1)]
+*Info 03/21 21:32:06.190 Community Controller: Cleaning traffic and network configuration for the community Traffic2@Network2 on port(s) [(1,2,1)]
+*Info 03/21 21:32:06.190 Traffic Traffic2: Cleaning up activities for community Traffic2@Network2
+*Info 03/21 21:32:06.190 Traffic Traffic2: Deleting downloaded packages ['httpServer_quick', 'linuxStackAdapter', 'stackAdapter', 'IxLoad_framework'] on ports [(1,2,1)]
+*Info 03/21 21:32:09.259 Network Network1: Cleaning network Network1 configuration on the ports - [(1,1,1)]
+*Info 03/21 21:32:14.769 Network Network2: Cleaning network Network2 configuration on the ports - [(1,2,1)]
+*Info 03/21 21:32:18.187 Test Controller : Deleting IxLoadAuto package on port(s) ['172.16.174.129;2;1', '172.16.174.129;1;1']
+*Info 03/21 21:32:26.563 Test Controller: Tearing down all network interfaces started...
+*Info 03/21 21:32:26.563 Network: Network Session : Deconfiguring
+*Info 03/21 21:32:26.563 Network: IpSessionData : Deconfiguring Done
+*Info 03/21 21:32:26.563 Network: MacSessionData : Deconfiguring Done
+*Info 03/21 21:32:26.563 Network: IxLoadSessionData : Deconfiguring Done
+*Info 03/21 21:32:26.828 Network: IPSecSessionData : Deconfiguring Done
+*Info 03/21 21:32:26.828 Network: IP-R (IP-R2) : Deconfiguring Done
+*Info 03/21 21:32:26.828 Network: IP-R (IP-R1) : Deconfiguring Done
+*Info 03/21 21:32:26.845 Network: GratARP (GratARP-2) : Package unloading Done
+*Info 03/21 21:32:26.845 Network: GratARP (GratARP-1) : Package unloading Done
+*Info 03/21 21:32:27.141 Network: MAC-R (MAC-R2) : Deconfiguring Done
+*Info 03/21 21:32:27.141 Network: MAC-R (MAC-R1) : Deconfiguring Done
+*Info 03/21 21:32:27.141 Network: IP (IP-1) : Package unloading Done
+*Info 03/21 21:32:27.141 Network: IP (IP-2) : Package unloading Done
+*Info 03/21 21:32:27.141 Network: Meshing (Meshing-1) : Package unloading Done
+*Info 03/21 21:32:27.141 Network: Meshing (Meshing-2) : Package unloading Done
+*Info 03/21 21:32:28.226 Network: MAC/VLAN (MAC/VLAN-2) : Package unloading Done
+*Info 03/21 21:32:28.226 Network: MAC/VLAN (MAC/VLAN-1) : Package unloading Done
+*Info 03/21 21:32:28.226 Network: DNS (DNS-1) : Package unloading Done
+*Info 03/21 21:32:28.226 Network: DNS (DNS-2) : Package unloading Done
+*Info 03/21 21:32:28.227 Network: Filter (Filter-2) : Package unloading Done
+*Info 03/21 21:32:28.227 Network: Settings (Settings-1) : Package unloading Done
+*Info 03/21 21:32:28.227 Network: TCP (TCP-2) : Package unloading Done
+*Info 03/21 21:32:28.227 Network: Settings (Settings-2) : Package unloading Done
+*Info 03/21 21:32:28.227 Network: TCP (TCP-1) : Package unloading Done
+*Info 03/21 21:32:28.229 Network: Filter (Filter-1) : Package unloading Done
+*Info 03/21 21:32:28.229 Network: Ethernet (Ethernet-1) : Package unloading Done
+*Info 03/21 21:32:28.229 Network: Ethernet (Ethernet-2) : Package unloading Done
+*Info 03/21 21:32:28.232 Network: Port Group (Network2) : Deconfiguring Done
+*Info 03/21 21:32:28.232 Network: Port Group (Network1) : Deconfiguring Done
+*Info 03/21 21:32:28.263 Test Controller : Tearing down all network interfaces completed...
+*Info 03/21 21:32:28.513 ixChassisChain : Successfully cleared ownership on ports [[1, 1, 1], [1, 2, 1]]
+172.16.174.129:51134 - waitTestToFinish 60
+<TIME:21:40:00><=
+waitTestToFinish 60
+<TIME:21:40:00>=>
+{Status:true
+Log:
+}
+172.16.174.129:51135 - StopTraffic
+<TIME:21:40:04><=
+StopTraffic
+<TIME:21:40:04>=>
+{Status:false
+Log:Initialize must be first proc called in StatCollectorUtils library
+}
+172.16.174.129:51136 - CleanUp
+<TIME:21:40:07><=
+CleanUp
+<TIME:21:40:07>=>
+{Status:true
+Log:
+}
+172.16.174.129:51139 - unset ::tcName
+
+}
